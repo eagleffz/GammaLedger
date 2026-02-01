@@ -8,7 +8,4 @@ services:
     environment:
       - FINNHUB_API_KEY=${FINNHUB_API_KEY}
       - FINNHUB_RATE_LIMIT=60
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - GEMINI_MODEL=gemini-2.5-flash
-      - GEMINI_MAX_TOKENS=65536
       - DEFAULT_FEE_PER_CONTRACT=0.65
