@@ -1,10 +1,11 @@
-FROM python:3.11-slim
+FROM nginx:alpine
 
-WORKDIR /app
+# Alte Default-Seite entfernen
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY . .
+# Web-App kopieren
+COPY . /usr/share/nginx/html
 
-RUN pip install --upgrade pip \
-    && pip install .
+EXPOSE 80
 
-CMD ["python", "main.py"]
+CMD ["nginx", "-g", "daemon off;"]
