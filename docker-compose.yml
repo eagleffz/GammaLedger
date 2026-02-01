@@ -2,7 +2,9 @@ services:
   gammaledger:
     build: .
     ports:
-      - "8080:80"
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
     environment:
       - FINNHUB_API_KEY=${FINNHUB_API_KEY}
       - FINNHUB_RATE_LIMIT=60

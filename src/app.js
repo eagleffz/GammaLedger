@@ -17263,7 +17263,7 @@ class GammaLedger {
         this.updateUnsavedIndicator();
     }
 
-    saveToStorage(metadata = {}) {
+    async saveToStorage(metadata = {}) {
         try {
             const payload = {
                 version: '2.5',
@@ -17271,35 +17271,75 @@ class GammaLedger {
                 fileName: metadata.fileName || this.currentFileName || 'Unsaved Database',
                 trades: this.getStorageTrades()
             };
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(payload));
+
+            await fetch('/api/storage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            // Keep legacy cleanup for now to ensure local state is clean
             LEGACY_STORAGE_KEYS.forEach(key => {
                 if (key && key !== LOCAL_STORAGE_KEY) {
                     localStorage.removeItem(key);
                 }
             });
         } catch (e) {
-            console.warn('Failed to save to localStorage:', e);
+            console.warn('Failed to save to server:', e);
+            this.showNotification('Failed to save data to server', 'error');
         }
     }
 
     async loadFromStorage() {
         try {
-            const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-            if (stored) {
-                const parsed = JSON.parse(stored);
-                if (parsed && Array.isArray(parsed.trades)) {
-                    this.trades = parsed.trades.map(trade => {
+            const response = await fetch('/api/storage');
+            const parsed = await response.json();
+
+            if (parsed && Array.isArray(parsed.trades) && parsed.trades.length > 0) {
+                this.trades = parsed.trades.map(trade => {
+                    const normalized = { ...trade };
+                    if (normalized.tradeReasoning && !normalized.notes) {
+                        normalized.notes = normalized.tradeReasoning;
+                    }
+                    delete normalized.tradeReasoning;
+                    window.TradeManagerMixin.enrichTradeData.call(this, normalized); // Ensure mixin context
+                    return normalized;
+                });
+
+                if (parsed.fileName) {
+                    this.currentFileName = parsed.fileName;
+                }
+                this.currentFileHandle = null;
+                this.hasUnsavedChanges = false;
+                this.updateUnsavedIndicator();
+                this.updateFileNameDisplay();
+                this.updateDashboard();
+                return true;
+            }
+
+            // Fallback: Check localStorage if server is empty (Migration path)
+            const localStored = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (localStored) {
+                const localParsed = JSON.parse(localStored);
+                if (localParsed && Array.isArray(localParsed.trades)) {
+                    console.log('Migrating data from localStorage to server...');
+                    this.trades = localParsed.trades.map(trade => {
                         const normalized = { ...trade };
                         if (normalized.tradeReasoning && !normalized.notes) {
                             normalized.notes = normalized.tradeReasoning;
                         }
                         delete normalized.tradeReasoning;
-                        return this.enrichTradeData(normalized);
+                        window.TradeManagerMixin.enrichTradeData.call(this, normalized);
+                        return normalized;
                     });
-                    if (parsed.fileName) {
-                        this.currentFileName = parsed.fileName;
-                    }
-                    this.currentFileHandle = null;
+                    this.currentFileName = localParsed.fileName || 'Migrated Database';
+                    await this.saveToStorage({ fileName: this.currentFileName }); // Sync to server
+
+                    // Clear local storage after successful migration
+                    localStorage.removeItem(LOCAL_STORAGE_KEY);
+
                     this.hasUnsavedChanges = false;
                     this.updateUnsavedIndicator();
                     this.updateFileNameDisplay();
@@ -17307,6 +17347,8 @@ class GammaLedger {
                     return true;
                 }
             }
+
+
 
             for (const key of LEGACY_STORAGE_KEYS) {
                 if (!key || key === LOCAL_STORAGE_KEY) {

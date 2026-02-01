@@ -1,18 +1,21 @@
-FROM nginx:alpine
+FROM node:18-alpine
 
-# Default-Content entfernen
-RUN rm -rf /usr/share/nginx/html/*
+# Workspace directory
+WORKDIR /app
 
-# Nur den src-Ordner ins Webroot kopieren
-COPY src/ /usr/share/nginx/html/
+# Copy package files and install dependencies
+COPY package.json ./
+RUN npm install
 
-# Rechte setzen (vermeidet 403 durch Permissions)
-RUN chmod -R 755 /usr/share/nginx/html
+# Copy source code and server scripts
+COPY src/ ./src/
+COPY server.js .
 
-# Copy entrypoint script for config injection
-COPY src/entrypoint.sh /docker-entrypoint.d/99-gammaledger-config.sh
-RUN chmod +x /docker-entrypoint.d/99-gammaledger-config.sh
+# Create data directory for persistence
+RUN mkdir -p data
 
-EXPOSE 80
+# Expose port
+EXPOSE 8080
 
-CMD ["nginx", "-g", "daemon off;"]
+# Start server
+CMD ["npm", "start"]
