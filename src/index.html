@@ -11,8 +11,10 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <!-- Content Security Policy (Recommended - uncomment and adjust for production) -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://generativelanguage.googleapis.com https://finnhub.io; frame-ancestors 'none';"> -->
-    <meta name="description" content="Powerful analytics for smarter options trading — track performance, analyze strategies, and optimize every trade with professional precision.">
-    <meta name="keywords" content="GammaLedger, options analytics, options trading journal, portfolio tracker, derivatives analytics, options strategy management">
+    <meta name="description"
+        content="Powerful analytics for smarter options trading — track performance, analyze strategies, and optimize every trade with professional precision.">
+    <meta name="keywords"
+        content="GammaLedger, options analytics, options trading journal, portfolio tracker, derivatives analytics, options strategy management">
     <meta name="author" content="GammaLedger Contributors">
     <meta name="copyright" content="GammaLedger">
     <meta name="robots" content="index, follow">
@@ -21,7 +23,8 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="GammaLedger">
     <meta property="og:title" content="GammaLedger – Analyze, Track & Visualize Your Options Portfolio Securely">
-    <meta property="og:description" content="Powerful analytics for smarter options trading — track performance, analyze strategies, and optimize every trade with professional precision.">
+    <meta property="og:description"
+        content="Powerful analytics for smarter options trading — track performance, analyze strategies, and optimize every trade with professional precision.">
     <meta property="og:url" content="https://gammaledger.com/app/">
     <meta property="og:image" content="https://gammaledger.com/assets/img/gammaledger-stage-01.jpg">
     <meta property="og:image:alt" content="GammaLedger options analytics dashboard">
@@ -29,13 +32,16 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="GammaLedger – Analyze, Track & Visualize Your Options Portfolio Securely">
-    <meta name="twitter:description" content="Powerful analytics for smarter options trading — track performance, analyze strategies, and optimize every trade with professional precision.">
+    <meta name="twitter:description"
+        content="Powerful analytics for smarter options trading — track performance, analyze strategies, and optimize every trade with professional precision.">
     <meta name="twitter:image" content="https://gammaledger.com/assets/img/gammaledger-stage-01.jpg">
     <meta name="twitter:image:alt" content="GammaLedger options analytics dashboard">
     <!-- Dublin Core -->
     <meta name="DC.Title" content="GammaLedger – Analyze, Track & Visualize Your Options Portfolio Securely">
-    <meta name="DC.Description" content="Powerful analytics for smarter options trading — track performance, analyze strategies, and optimize every trade with professional precision.">
-    <meta name="DC.Subject" content="GammaLedger, options analytics, options trading journal, portfolio tracker, derivatives analytics, options strategy management">
+    <meta name="DC.Description"
+        content="Powerful analytics for smarter options trading — track performance, analyze strategies, and optimize every trade with professional precision.">
+    <meta name="DC.Subject"
+        content="GammaLedger, options analytics, options trading journal, portfolio tracker, derivatives analytics, options strategy management">
     <meta name="DC.Creator" content="GammaLedger Contributors">
     <meta name="DC.Publisher" content="GammaLedger">
     <meta name="DC.Type" content="Text">
@@ -51,62 +57,8 @@
 </head>
 
 <body>
-    <div id="disclaimer-banner" class="disclaimer-banner is-hidden" role="dialog" aria-modal="true"
-        aria-labelledby="disclaimer-title" aria-hidden="true">
-        <div class="disclaimer-banner__panel">
-            <h2 id="disclaimer-title" class="disclaimer-banner__title">Disclaimer</h2>
-            <div class="disclaimer-banner__body" tabindex="0">
-                <p>The information and tools provided on this website are for educational and analytical/learning purposes only,
-                    intended to help users understand options trading concepts.
-                    Nothing on this site constitutes financial, investment, trading, or legal advice.</p>
-                <p>Users should not rely solely on the data, analytics, or calculations presented here for making investment decisions.
-                    Options trading involves significant risk and is not suitable for all investors.
-                    You may lose part or all of your invested capital, or potentially more than your invested capital
-                    (for example, when selling naked calls or holding spreads with pin risk).</p>
-                <p>All data, analytics, and visualizations are provided "as is", without any warranty of accuracy,
-                    completeness, or reliability. The website's creators and contributors assume no responsibility for
-                    any losses or damages arising from the use or interpretation of the provided information.</p>
-                <p>This website does not offer or execute trades, provide broker services, or endorse any specific
-                    financial products or platforms. Users remain fully responsible for verifying information and
-                    complying with applicable laws and regulations in their jurisdiction.</p>
-                <p>If the website allows local or cloud-based data storage, users are solely responsible for managing
-                    and protecting their own data. No guarantee is given for continuous access, data integrity, or
-                    long-term storage.</p>
-                <p>By using this website, you agree to these terms and acknowledge that you understand the inherent
-                    risks associated with financial and options trading, subject to applicable laws.</p>
-            </div>
-            <div class="disclaimer-banner__actions">
-                <button type="button" class="btn btn--primary disclaimer-banner__agree"
-                    data-action="disclaimer-agree">Agree</button>
-            </div>
-        </div>
-    </div>
-    <div id="ai-coach-consent" class="ai-consent-modal is-hidden" role="dialog" aria-modal="true"
-        aria-labelledby="ai-consent-title" aria-describedby="ai-consent-description">
-        <div class="ai-consent-modal__overlay" data-action="ai-consent-dismiss"></div>
-        <div class="ai-consent-modal__panel" role="document">
-            <button type="button" class="ai-consent-modal__close" data-action="ai-consent-dismiss"
-                aria-label="Close AI Coach consent dialog">×</button>
-            <div class="ai-consent-modal__header">
-                <h2 id="ai-consent-title" class="ai-consent-modal__title">AI Coach Data Sharing</h2>
-                <p id="ai-consent-description" class="ai-consent-modal__lead">By using this feature, you agree that your
-                    portfolio data — including trade details and summary information — will be securely sent to the AI Agent
-                    for analysis and response generation.</p>
-            </div>
-            <div class="ai-consent-modal__body">
-                <ul class="ai-consent-modal__list">
-                    <li>The AI Coach uses your shared data only to craft responses for this session.</li>
-                    <li>Your API key and portfolio remain saved locally; requests are transmitted securely to your configured
-                        AI endpoint.</li>
-                    <li>You can revoke access any time by clearing the AI key in Settings.</li>
-                </ul>
-            </div>
-            <div class="ai-consent-modal__actions">
-                <button type="button" class="btn btn--secondary" data-action="ai-consent-dismiss">Cancel</button>
-                <button type="button" class="btn btn--primary" data-action="ai-consent-agree">I Understand &amp; Agree</button>
-            </div>
-        </div>
-    </div>
+
+
     <div class="app-container">
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
@@ -143,7 +95,8 @@
                 </button>
             </nav>
             <div class="sidebar-toggle-container">
-                <button type="button" id="sidebar-toggle" class="sidebar-toggle" aria-expanded="true" aria-label="Collapse navigation"></button>
+                <button type="button" id="sidebar-toggle" class="sidebar-toggle" aria-expanded="true"
+                    aria-label="Collapse navigation"></button>
             </div>
             <div class="sidebar-footer">
                 <a class="sidebar-link" href="https://gammaledger.com" target="_blank" rel="noopener noreferrer">
@@ -162,7 +115,8 @@
                 <div class="header-left">
                     <h1 id="page-title">Options Trading Dashboard</h1>
                     <div class="share-action">
-                        <button class="icon-button" id="share-portfolio-card" aria-label="Share portfolio snapshot" title="Share portfolio snapshot">
+                        <button class="icon-button" id="share-portfolio-card" aria-label="Share portfolio snapshot"
+                            title="Share portfolio snapshot">
                             <span aria-hidden="true">⌯⌲</span>
                         </button>
                         <span class="share-action__label">Share your portfolio snapshot</span>
@@ -278,7 +232,8 @@
                 <div class="cumulative-pl-section">
                     <div class="chart-container chart-full-width">
                         <h3>Cumulative P&L Growth</h3>
-                        <div class="chart-range" id="cumulative-pl-controls" role="group" aria-label="Cumulative P&L time range">
+                        <div class="chart-range" id="cumulative-pl-controls" role="group"
+                            aria-label="Cumulative P&L time range">
                             <button type="button" class="chart-range__button" data-range="7D">7D</button>
                             <button type="button" class="chart-range__button" data-range="MTD">MTD</button>
                             <button type="button" class="chart-range__button" data-range="1M">1M</button>
@@ -408,8 +363,10 @@
                     <!-- Assigned Positions / Wheel Strategy Tracking -->
                     <div class="assigned-positions">
                         <h3>Wheel / PMCC Tracker</h3>
-                        <p class="section-help-text">Positions from assigned Cash-Secured Puts / Wheel or PMCC strategies. Premium collected includes only covered calls sold after assignment.</p>
-                        <div class="chart-range" id="assigned-positions-status-filter" role="group" aria-label="Position status filter">
+                        <p class="section-help-text">Positions from assigned Cash-Secured Puts / Wheel or PMCC
+                            strategies. Premium collected includes only covered calls sold after assignment.</p>
+                        <div class="chart-range" id="assigned-positions-status-filter" role="group"
+                            aria-label="Position status filter">
                             <button type="button" class="chart-range__button is-active" data-status="open">Open</button>
                             <button type="button" class="chart-range__button" data-status="closed">Closed</button>
                         </div>
@@ -446,7 +403,8 @@
                         <!-- Basic Trade Info -->
                         <section class="form-section">
                             <h3>Basic Trade Information</h3>
-                            <p class="form-help-text">Opened, expiration, and closed dates are automatically derived from leg activity.</p>
+                            <p class="form-help-text">Opened, expiration, and closed dates are automatically derived
+                                from leg activity.</p>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label" for="ticker">Ticker Symbol</label>
@@ -461,7 +419,8 @@
                                         <option value="Index">Index</option>
                                         <option value="Future">Future</option>
                                     </select>
-                                    <p class="form-help-text">Choose the asset category so GammaLedger can apply the right contract multiplier.</p>
+                                    <p class="form-help-text">Choose the asset category so GammaLedger can apply the
+                                        right contract multiplier.</p>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -544,7 +503,8 @@
                                         <option value="Expired">Expired</option>
                                         <option value="Assigned">Assigned</option>
                                     </select>
-                                    <p class="form-help-text">Leave on Auto for lifecycle detection or pick a status to override it.</p>
+                                    <p class="form-help-text">Leave on Auto for lifecycle detection or pick a status to
+                                        override it.</p>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -576,7 +536,8 @@
                         <section class="form-section">
                             <div class="form-section__header">
                                 <h3>Trade Legs</h3>
-                                <p class="form-help-text">Add one or more legs to fully describe this trade. Each leg represents a single execution (including rolls).</p>
+                                <p class="form-help-text">Add one or more legs to fully describe this trade. Each leg
+                                    represents a single execution (including rolls).</p>
                             </div>
                             <div id="trade-legs-container" class="trade-legs-container" aria-live="polite"></div>
                             <div class="form-row trade-legs-actions">
@@ -596,20 +557,24 @@
             <div class="view trades-list-view">
                 <div class="trades-header">
                     <div class="trades-header__controls">
-                        <button type="button" class="btn btn--sm btn--secondary trades-filters-toggle" id="toggle-filters" aria-expanded="true" aria-controls="trades-filters-panel">
+                        <button type="button" class="btn btn--sm btn--secondary trades-filters-toggle"
+                            id="toggle-filters" aria-expanded="true" aria-controls="trades-filters-panel">
                             Hide Filters
                         </button>
                         <div class="trades-actions">
-                            <button class="btn btn--secondary" id="trades-merge-toggle" aria-controls="trades-merge-panel" aria-expanded="false">Merge Trades</button>
+                            <button class="btn btn--secondary" id="trades-merge-toggle"
+                                aria-controls="trades-merge-panel" aria-expanded="false">Merge Trades</button>
                             <button class="btn btn--secondary" id="export-csv">Export CSV</button>
                         </div>
                     </div>
                     <div class="trades-filters is-open" id="trades-filters-panel">
                         <div class="trades-filters-grid trades-filters-grid--compact">
-                            <select id="filter-strategy" class="form-control" multiple size="6" aria-label="Filter by strategy">
+                            <select id="filter-strategy" class="form-control" multiple size="6"
+                                aria-label="Filter by strategy">
                                 <option value="">All Strategies</option>
                             </select>
-                            <select id="filter-status" class="form-control" multiple size="6" aria-label="Filter by status">
+                            <select id="filter-status" class="form-control" multiple size="6"
+                                aria-label="Filter by status">
                                 <option value="">All Status</option>
                                 <option value="Open">Open</option>
                                 <option value="Rolling">Rolling</option>
@@ -618,19 +583,24 @@
                                 <option value="Expired">Expired</option>
                             </select>
                         </div>
-                        <div class="trades-filters-hint" id="trades-filters-hint">Hold Cmd (Mac) or Ctrl (Windows) to select multiple options.</div>
+                        <div class="trades-filters-hint" id="trades-filters-hint">Hold Cmd (Mac) or Ctrl (Windows) to
+                            select multiple options.</div>
                         <div class="trades-filters-search">
-                            <input type="text" id="search-ticker" class="form-control" placeholder="Search ticker, strategy, or notes...">
+                            <input type="text" id="search-ticker" class="form-control"
+                                placeholder="Search ticker, strategy, or notes...">
                         </div>
                     </div>
                 </div>
-                <section class="trades-merge-panel is-collapsed" id="trades-merge-panel" aria-live="polite" aria-hidden="true">
+                <section class="trades-merge-panel is-collapsed" id="trades-merge-panel" aria-live="polite"
+                    aria-hidden="true">
                     <header class="trades-merge-panel__header">
                         <div>
                             <h3 class="trades-merge-panel__title">Merge Trades by Ticker</h3>
-                            <p id="trades-merge-summary" class="trades-merge-panel__summary">Select two or more trades with the same ticker to enable merging.</p>
+                            <p id="trades-merge-summary" class="trades-merge-panel__summary">Select two or more trades
+                                with the same ticker to enable merging.</p>
                         </div>
-                        <button type="button" class="btn btn--secondary" id="trades-merge-btn" disabled>Merge Selected Trades</button>
+                        <button type="button" class="btn btn--secondary" id="trades-merge-btn" disabled>Merge Selected
+                            Trades</button>
                     </header>
                     <div id="trades-merge-groups" class="trades-merge-groups"></div>
                 </section>
@@ -638,7 +608,8 @@
                     <table id="trades-table" class="stackable-table">
                         <thead>
                             <tr>
-                                <th class="trade-select-header is-hidden"><input type="checkbox" id="trades-select-all" aria-label="Select all visible trades" disabled></th>
+                                <th class="trade-select-header is-hidden"><input type="checkbox" id="trades-select-all"
+                                        aria-label="Select all visible trades" disabled></th>
                                 <th class="sortable" data-sort="ticker">Ticker</th>
                                 <th class="sortable" data-sort="strategy">Strategy</th>
                                 <th class="sortable" data-sort="strikePrice">Strike</th>
@@ -755,7 +726,8 @@
                     </div>
                     <div class="credit-playbook-filter">
                         <label class="filter-label" for="credit-playbook-symbol-filter">Symbol</label>
-                        <input type="search" id="credit-playbook-symbol-filter" class="form-control" placeholder="Filter ticker...">
+                        <input type="search" id="credit-playbook-symbol-filter" class="form-control"
+                            placeholder="Filter ticker...">
                     </div>
                 </section>
 
@@ -764,20 +736,30 @@
                         <thead>
                             <tr>
                                 <th class="sortable" data-sort="ticker" data-sort-context="credit-playbook">Ticker</th>
-                                <th class="sortable" data-sort="strategy" data-sort-context="credit-playbook">Strategy</th>
+                                <th class="sortable" data-sort="strategy" data-sort-context="credit-playbook">Strategy
+                                </th>
                                 <th class="sortable" data-sort="type" data-sort-context="credit-playbook">Type</th>
-                                <th class="sortable" data-sort="strike" data-sort-context="credit-playbook">Strike Price</th>
+                                <th class="sortable" data-sort="strike" data-sort-context="credit-playbook">Strike Price
+                                </th>
                                 <th class="sortable" data-sort="status" data-sort-context="credit-playbook">Status</th>
-                                <th class="sortable" data-sort="quantity" data-sort-context="credit-playbook">Contracts</th>
-                                <th class="sortable" data-sort="pricePerContract" data-sort-context="credit-playbook">Price/Contract</th>
+                                <th class="sortable" data-sort="quantity" data-sort-context="credit-playbook">Contracts
+                                </th>
+                                <th class="sortable" data-sort="pricePerContract" data-sort-context="credit-playbook">
+                                    Price/Contract</th>
                                 <th class="sortable" data-sort="fees" data-sort-context="credit-playbook">Fees</th>
-                                <th class="sortable" data-sort="premium" data-sort-context="credit-playbook">Premium</th>
-                                <th class="sortable" data-sort="currentPrice" data-sort-context="credit-playbook">Current Price</th>
-                                <th class="sortable" data-sort="entryDate" data-sort-context="credit-playbook">Entry Date</th>
-                                <th class="sortable" data-sort="expirationDate" data-sort-context="credit-playbook">Expiration Date</th>
+                                <th class="sortable" data-sort="premium" data-sort-context="credit-playbook">Premium
+                                </th>
+                                <th class="sortable" data-sort="currentPrice" data-sort-context="credit-playbook">
+                                    Current Price</th>
+                                <th class="sortable" data-sort="entryDate" data-sort-context="credit-playbook">Entry
+                                    Date</th>
+                                <th class="sortable" data-sort="expirationDate" data-sort-context="credit-playbook">
+                                    Expiration Date</th>
                                 <th class="sortable" data-sort="dte" data-sort-context="credit-playbook">DTE</th>
-                                <th class="sortable" data-sort="exitDate" data-sort-context="credit-playbook">Exit Date</th>
-                                <th class="sortable" data-sort="daysHeld" data-sort-context="credit-playbook">Days Held</th>
+                                <th class="sortable" data-sort="exitDate" data-sort-context="credit-playbook">Exit Date
+                                </th>
+                                <th class="sortable" data-sort="daysHeld" data-sort-context="credit-playbook">Days Held
+                                </th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -790,11 +772,13 @@
                 <section class="import-section">
                     <header class="import-header">
                         <h2>Import Trade Activity</h2>
-                        <p>Bring in broker exports without overwriting your existing database. OFX, CSV files are merged into your current trades; JSON imports create a brand new database.</p>
+                        <p>Bring in broker exports without overwriting your existing database. OFX, CSV files are merged
+                            into your current trades; JSON imports create a brand new database.</p>
                     </header>
                     <div class="import-actions">
                         <button type="button" class="btn btn--primary" id="import-ofx-btn">Import OFX…</button>
-                        <button type="button" class="btn btn--primary" id="import-robinhood-btn">Import Robinhood CSV…</button>
+                        <button type="button" class="btn btn--primary" id="import-robinhood-btn">Import Robinhood
+                            CSV…</button>
                         <button type="button" class="btn btn--secondary" id="import-json-btn">Import JSON…</button>
                     </div>
                     <section class="import-stats" aria-live="polite">
@@ -807,8 +791,10 @@
                     </section>
                     <section class="import-merge import-merge--hint" aria-live="polite">
                         <h3>Merge Trades After Import</h3>
-                        <p id="import-merge-hint" class="import-merge__help">Review trades flagged for manual merge on the All Trades page after completing an import.</p>
-                        <button type="button" class="btn btn--secondary" id="import-merge-hint-btn">Review Merge Opportunities</button>
+                        <p id="import-merge-hint" class="import-merge__help">Review trades flagged for manual merge on
+                            the All Trades page after completing an import.</p>
+                        <button type="button" class="btn btn--secondary" id="import-merge-hint-btn">Review Merge
+                            Opportunities</button>
                     </section>
                     <section class="import-help">
                         <h3>Import Tips</h3>
@@ -831,66 +817,38 @@
                     <div class="settings-card" id="finnhub-controls">
                         <div class="settings-card__header">
                             <h3>Finnhub API Key</h3>
-                            <p class="settings-card__subtitle">We encrypt your key locally before storing it in this browser.</p>
+                            <p class="settings-card__subtitle">We encrypt your key locally before storing it in this
+                                browser.</p>
                         </div>
                         <div class="settings-card__body">
                             <label for="finnhub-api-key" class="form-label">API Key</label>
                             <div class="settings-input-row">
-                                <input type="password" id="finnhub-api-key" class="form-control finnhub-input" placeholder="Paste API key" autocomplete="off">
+                                <input type="password" id="finnhub-api-key" class="form-control finnhub-input"
+                                    placeholder="Paste API key" autocomplete="off">
                                 <button class="btn btn--sm btn--primary" id="finnhub-save">Save Key</button>
                             </div>
-                            <p class="settings-help-text">The key never leaves your machine. Clearing browser storage will remove it.</p>
+                            <p class="settings-help-text">The key never leaves your machine. Clearing browser storage
+                                will remove it.</p>
                             <div class="finnhub-status" id="finnhub-status" role="status">Not set</div>
-                            
+
                             <div class="settings-divider"></div>
-                            
+
                             <label for="finnhub-rate-limit" class="form-label">Rate Limit (requests per minute)</label>
                             <div class="settings-input-row">
-                                <input type="number" id="finnhub-rate-limit" class="form-control" placeholder="60" min="1" max="300" step="1" autocomplete="off">
+                                <input type="number" id="finnhub-rate-limit" class="form-control" placeholder="60"
+                                    min="1" max="300" step="1" autocomplete="off">
                                 <button class="btn btn--sm btn--primary" id="finnhub-rate-save">Save</button>
                                 <button class="btn btn--sm btn--secondary" id="finnhub-rate-reset">Reset</button>
                             </div>
-                            <p class="settings-help-text">Free Finnhub accounts are limited to 60 requests/minute. Adjust if you have a paid plan.</p>
-                            <div class="finnhub-rate-status" id="finnhub-rate-status" role="status">Default: 60/min</div>
+                            <p class="settings-help-text">Free Finnhub accounts are limited to 60 requests/minute.
+                                Adjust if you have a paid plan.</p>
+                            <div class="finnhub-rate-status" id="finnhub-rate-status" role="status">Default: 60/min
+                            </div>
                         </div>
                     </div>
-                    <div class="settings-card" id="gemini-controls">
-                        <div class="settings-card__header">
-                            <h3>Gemini API</h3>
-                            <p class="settings-card__subtitle">Store a Google Gemini-compatible API key to enable AI portfolio insights.</p>
-                        </div>
-                        <div class="settings-card__body">
-                            <label for="gemini-api-key" class="form-label">API Key</label>
-                            <div class="settings-input-row">
-                                <input type="password" id="gemini-api-key" class="form-control" placeholder="Paste API key" autocomplete="off">
-                                <button class="btn btn--sm btn--primary" id="gemini-save">Save Key</button>
-                                <button class="btn btn--sm btn--secondary" id="gemini-clear">Clear</button>
-                            </div>
-                            <div class="form-group">
-                                <label for="gemini-model" class="form-label">Model</label>
-                                <select id="gemini-model" class="form-control">
-                                    <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
-                                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-                                    <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
-                                </select>
-                            </div>
-                            <p class="settings-help-text">Keys stay on this device. Use Google AI Studio or any compatible service exposing the Gemini generateContent API.</p>
-                            <div class="gemini-status" id="gemini-status" role="status">Not set</div>
-                            
-                            <div class="settings-divider"></div>
-                            
-                            <label for="gemini-max-tokens" class="form-label">Max Output Tokens</label>
-                            <div class="settings-input-row">
-                                <input type="number" id="gemini-max-tokens" class="form-control" placeholder="65536" min="1024" max="1000000" step="1024" autocomplete="off">
-                                <button class="btn btn--sm btn--primary" id="gemini-tokens-save">Save</button>
-                                <button class="btn btn--sm btn--secondary" id="gemini-tokens-reset">Reset</button>
-                            </div>
-                            <p class="settings-help-text">Maximum tokens for AI responses. Higher values allow longer responses but may increase cost.</p>
-                            <div class="gemini-tokens-status" id="gemini-tokens-status" role="status">Default: 65536</div>
-                        </div>
-                    </div>
+
                 </section>
-                <br/>
+                <br />
                 <section class="settings-section">
                     <header class="settings-section__header">
                         <h2>Trade Entry Defaults</h2>
@@ -899,16 +857,19 @@
                     <div class="settings-card" id="default-fees-controls">
                         <div class="settings-card__header">
                             <h3>Default Fee Per Contract</h3>
-                            <p class="settings-card__subtitle">Automatically apply this fee when adding new trade legs.</p>
+                            <p class="settings-card__subtitle">Automatically apply this fee when adding new trade legs.
+                            </p>
                         </div>
                         <div class="settings-card__body">
                             <label for="default-fee-per-contract" class="form-label">Fee Per Contract</label>
                             <div class="settings-input-row">
-                                <input type="number" id="default-fee-per-contract" class="form-control" placeholder="e.g. 0.65" step="0.01" min="0" autocomplete="off">
+                                <input type="number" id="default-fee-per-contract" class="form-control"
+                                    placeholder="e.g. 0.65" step="0.01" min="0" autocomplete="off">
                                 <button class="btn btn--sm btn--primary" id="default-fee-save">Save</button>
                                 <button class="btn btn--sm btn--secondary" id="default-fee-clear">Clear</button>
                             </div>
-                            <p class="settings-help-text">Enter the fee charged per contract (e.g., $0,65). This will be multiplied by the quantity when adding new legs.</p>
+                            <p class="settings-help-text">Enter the fee charged per contract (e.g., $0,65). This will be
+                                multiplied by the quantity when adding new legs.</p>
                             <div class="default-fee-status" id="default-fee-status" role="status">Not set</div>
                         </div>
                     </div>
@@ -923,34 +884,7 @@
     <input type="file" id="import-robinhood-input" accept=".csv,.CSV" style="display: none;">
     <input type="file" id="import-json-input" accept=".json" style="display: none;">
 
-    <div class="ai-chat" id="ai-chat">
-        <button type="button" class="ai-chat__toggle" id="ai-chat-toggle" aria-controls="ai-chat-panel" aria-expanded="false">
-            🤖 AI Coach
-        </button>
-            <div class="ai-chat__panel hidden" id="ai-chat-panel" aria-hidden="true">
-            <div class="ai-chat__resize-handle" id="ai-chat-resize-handle" role="presentation" aria-hidden="true"></div>
-                <div class="ai-chat__header">
-                    <div>
-                        <h3 id="ai-chat-title" class="ai-chat__title">Portfolio AI Coach</h3>
-                        <p id="ai-chat-subtitle" class="ai-chat__subtitle"></p>
-                    </div>
-                <button type="button" class="ai-chat__close" id="ai-chat-close" aria-label="Close AI chat">×</button>
-            </div>
-            <div class="ai-chat__body" id="ai-chat-history" aria-live="polite"></div>
-            <form class="ai-chat__form" id="ai-chat-form">
-                <input type="text" id="ai-chat-input" class="ai-chat__input" placeholder="Ask about your portfolio..." autocomplete="off" required>
-                <button type="submit" class="btn btn--primary ai-chat__send">Send</button>
-            </form>
-            <div class="ai-chat__quick" id="ai-chat-quick">
-                <span class="ai-chat__quick-label">Quick prompts:</span>
-                <div class="ai-chat__quick-buttons">
-                    <button type="button" class="ai-chat__quick-btn" data-ai-prompt="Analyze my portfolio's overall health with a focus on liquidity, volatility exposure, and capital utilization. Identify my most vulnerable open trade.">Portfolio health</button>
-                    <button type="button" class="ai-chat__quick-btn" data-ai-prompt="Identify my largest concentration risk and suggest a specific strategy to reduce that position's leverage or exposure, referencing Max Drawdown.">Risk check</button>
-                    <button type="button" class="ai-chat__quick-btn" data-ai-prompt="Based on my top-performing strategies, recommend a specific adjustment to my strategy mix to reduce losses or improve ROI.">Strategy ideas</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <div id="share-card-root" class="share-card-root" aria-hidden="true">
         <div class="share-card" role="presentation">
@@ -981,7 +915,8 @@
             </div>
             <div class="share-card__chart">
                 <h3 class="share-card__chart-title">Cumulative P&amp;L</h3>
-                <canvas id="share-card-cumulative-chart" width="880" height="360" role="img" aria-label="Cumulative P and L chart"></canvas>
+                <canvas id="share-card-cumulative-chart" width="880" height="360" role="img"
+                    aria-label="Cumulative P and L chart"></canvas>
             </div>
             <footer class="share-card__footer">
                 <span class="share-card__footnote">Generated with GammaLedger.com</span>
