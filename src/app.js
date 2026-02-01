@@ -1315,7 +1315,7 @@ class GammaLedger {
             key: null,
             direction: 'asc'
         };
-    this.cumulativePLRange = 'ALL';
+        this.cumulativePLRange = 'ALL';
 
         this.disclaimerBanner = {
             element: null,
@@ -1531,19 +1531,19 @@ class GammaLedger {
     validateNumber(value, options = {}) {
         const { min = -Infinity, max = Infinity, allowZero = true, defaultValue = 0 } = options;
         const num = Number(value);
-        
+
         if (!Number.isFinite(num)) {
             return defaultValue;
         }
-        
+
         if (!allowZero && num === 0) {
             return defaultValue;
         }
-        
+
         if (num < min || num > max) {
             return defaultValue;
         }
-        
+
         return num;
     }
 
@@ -1551,7 +1551,7 @@ class GammaLedger {
         if (!dateString || typeof dateString !== 'string') {
             return null;
         }
-        
+
         const date = new Date(dateString);
         return isNaN(date.getTime()) ? null : dateString;
     }
@@ -1560,7 +1560,7 @@ class GammaLedger {
         if (value === null || value === undefined) {
             return '';
         }
-        
+
         const str = String(value).trim();
         return str.length > maxLength ? str.substring(0, maxLength) : str;
     }
@@ -1588,25 +1588,25 @@ class GammaLedger {
         if (this.finnhub?.statusTimeoutId) {
             clearTimeout(this.finnhub.statusTimeoutId);
         }
-        
+
         // Clear intervals
         if (this.quoteRefreshIntervalId) {
             clearInterval(this.quoteRefreshIntervalId);
             this.quoteRefreshIntervalId = null;
         }
-        
+
         // Destroy all charts
         Object.keys(this.charts).forEach(key => {
             this.destroyChart(this.charts[key]);
         });
         this.charts = {};
-        
+
         // Clear trade detail charts
         if (this.tradeDetailCharts) {
             this.tradeDetailCharts.forEach(chart => this.destroyChart(chart));
             this.tradeDetailCharts.clear();
         }
-        
+
         // Destroy share card chart
         if (this.shareCard?.chart) {
             this.destroyChart(this.shareCard.chart);
@@ -1941,7 +1941,7 @@ class GammaLedger {
         summary.legsCount = normalizedLegs.length;
         const openOptionGroups = new Map();
         const now = this.currentDate instanceof Date ? this.currentDate : new Date();
-        
+
         // Track net positions for short calls to find truly open positions
         const shortCallPositions = new Map();
 
@@ -2019,12 +2019,12 @@ class GammaLedger {
                     if (!summary.latestExpiration || exp > summary.latestExpiration) {
                         summary.latestExpiration = exp;
                     }
-                    
+
                     // Track short call positions to determine net open positions
                     if (action === 'SELL' && leg.type === 'CALL') {
                         const key = `${leg.strike}|${leg.expirationDate}`;
                         const quantity = Math.abs(Number(leg.quantity) || 0);
-                        
+
                         if (side === 'OPEN') {
                             shortCallPositions.set(key, (shortCallPositions.get(key) || 0) + quantity);
                         } else if (side === 'CLOSE') {
@@ -2047,23 +2047,23 @@ class GammaLedger {
         if (!summary.primaryLeg) {
             summary.primaryLeg = normalizedLegs[0];
         }
-        
+
         // Calculate nearest and next short call expirations based on net open positions
         shortCallPositions.forEach((netQuantity, key) => {
             if (netQuantity <= 0) {
                 return; // Position is closed or net long
             }
-            
+
             const [strikeStr, expirationStr] = key.split('|');
             const exp = expirationStr ? new Date(expirationStr) : null;
             if (!exp || Number.isNaN(exp.getTime())) {
                 return;
             }
-            
+
             if (!summary.nearestShortCallExpiration || exp < summary.nearestShortCallExpiration) {
                 summary.nearestShortCallExpiration = exp;
             }
-            
+
             // Options expire at 4 PM ET (21:00 UTC), not midnight
             const expWithMarketClose = new Date(Date.UTC(
                 exp.getUTCFullYear(),
@@ -2363,13 +2363,13 @@ class GammaLedger {
                 multiplier = Math.abs(Number(this.getLegMultiplier(legWithMultiplier)));
             }
         }
-        
+
         // Check for stock legs and use stock-based calculations
         const openLegsForRisk = Array.isArray(summary?.legs)
             ? summary.legs.filter((leg) => leg && this.getLegSide(leg) === 'OPEN')
             : [];
         const stockLegsForRisk = openLegsForRisk.filter((leg) => leg.type === 'STOCK');
-        
+
         if (stockLegsForRisk.length > 0) {
             // For stock assignments, use stock shares as contracts and stock multiplier
             const totalStockShares = stockLegsForRisk.reduce((sum, leg) => {
@@ -2874,10 +2874,10 @@ class GammaLedger {
         if (!summary || !Array.isArray(summary.legs)) {
             return null;
         }
-    const openLegs = summary.legs.filter(leg => this.getLegSide(leg) === 'OPEN');
+        const openLegs = summary.legs.filter(leg => this.getLegSide(leg) === 'OPEN');
         const relevantLegs = openLegs.length ? openLegs : summary.legs;
 
-    const shortOption = relevantLegs.find(leg => this.getLegAction(leg) === 'SELL' && Number.isFinite(Number(leg.strike)));
+        const shortOption = relevantLegs.find(leg => this.getLegAction(leg) === 'SELL' && Number.isFinite(Number(leg.strike)));
         if (shortOption) {
             return Number(shortOption.strike);
         }
@@ -2945,7 +2945,7 @@ class GammaLedger {
             return '—';
         }
 
-    const openLegs = legs.filter(leg => this.getLegSide(leg) === 'OPEN');
+        const openLegs = legs.filter(leg => this.getLegSide(leg) === 'OPEN');
         const relevantLegs = openLegs.length ? openLegs : legs;
         const optionLegs = relevantLegs.filter(leg => ['CALL', 'PUT'].includes(leg.type) && Number.isFinite(Number(leg.strike)));
 
@@ -3388,7 +3388,7 @@ class GammaLedger {
     buildMaxRiskTooltip(strategyName, strategyInfo, context, trade) {
         const html = [];
         const formulaData = this.getFormulaData();
-        
+
         html.push(`<div class="formula-tooltip__title">`);
         html.push(`<span class="formula-tooltip__strategy">${this.escapeHtml(strategyName)}</span>`);
         html.push(`Max Risk`);
@@ -3427,7 +3427,7 @@ class GammaLedger {
     buildPLTooltip(trade, details, context) {
         const html = [];
         const formulaData = this.getFormulaData();
-        
+
         html.push(`<div class="formula-tooltip__title">`);
         html.push(`P&L Calculation`);
         html.push(`</div>`);
@@ -3469,16 +3469,16 @@ class GammaLedger {
         const variables = [];
         const explanations = formulaData.variableExplanations;
         const maxRiskValue = Number(trade.maxRisk);
-        
+
         // Stock price at entry (S_0 or S)
         if (context.S) {
             const explanation = explanations.S_0 || 'Underlying stock price at entry';
-            variables.push({ 
-                displayName: `${explanation} (S_0)`, 
-                value: `$${context.S.toFixed(2)}` 
+            variables.push({
+                displayName: `${explanation} (S_0)`,
+                value: `$${context.S.toFixed(2)}`
             });
         }
-        
+
         // Strike prices - map context properties to formula variables
         const strikeMapping = [
             { contextKey: 'K', formulaKey: 'K', shouldShow: () => context.K && !context.K1 },
@@ -3491,7 +3491,7 @@ class GammaLedger {
             { contextKey: 'shortCallStrike', formulaKey: 'K_call', shouldShow: () => context.shortCallStrike && !context.K1 },
             { contextKey: 'longCallStrike', formulaKey: 'K_call', shouldShow: () => context.longCallStrike && !context.K1 && !context.shortCallStrike }
         ];
-        
+
         strikeMapping.forEach(mapping => {
             const value = context[mapping.contextKey];
             if (value && Number.isFinite(value)) {
@@ -3500,106 +3500,106 @@ class GammaLedger {
                     const explanation = explanations[mapping.formulaKey] || 'Strike price';
                     // Avoid duplicates
                     if (!variables.some(v => v.displayName.includes(mapping.formulaKey))) {
-                        variables.push({ 
-                            displayName: `${explanation} (${mapping.formulaKey})`, 
-                            value: `$${value.toFixed(2)}` 
+                        variables.push({
+                            displayName: `${explanation} (${mapping.formulaKey})`,
+                            value: `$${value.toFixed(2)}`
                         });
                     }
                 }
             }
         });
-        
+
         // Strike spread (D_spread)
         if (context.K1 && context.K2) {
             const width = Math.abs(context.K2 - context.K1);
             const explanation = explanations.D_spread || 'Distance between strikes';
-            variables.push({ 
-                displayName: `${explanation} (D_spread)`, 
-                value: `$${width.toFixed(2)}` 
+            variables.push({
+                displayName: `${explanation} (D_spread)`,
+                value: `$${width.toFixed(2)}`
             });
         } else if (context.defaultWidth && Number.isFinite(context.defaultWidth)) {
             const explanation = explanations.D_spread || 'Distance between strikes';
-            variables.push({ 
-                displayName: `${explanation} (D_spread)`, 
-                value: `$${context.defaultWidth.toFixed(2)}` 
+            variables.push({
+                displayName: `${explanation} (D_spread)`,
+                value: `$${context.defaultWidth.toFixed(2)}`
             });
         }
-        
+
         // Net credit/debit
         if (context.netCredit && context.netCredit > 0) {
             const explanation = explanations.netCredit || 'Net credit received';
-            variables.push({ 
-                displayName: `${explanation} (netCredit)`, 
-                value: `$${context.netCredit.toFixed(2)}` 
+            variables.push({
+                displayName: `${explanation} (netCredit)`,
+                value: `$${context.netCredit.toFixed(2)}`
             });
         }
         if (context.netDebit && context.netDebit > 0) {
             const explanation = explanations.netDebit || 'Net debit paid';
-            variables.push({ 
-                displayName: `${explanation} (netDebit)`, 
-                value: `$${context.netDebit.toFixed(2)}` 
+            variables.push({
+                displayName: `${explanation} (netDebit)`,
+                value: `$${context.netDebit.toFixed(2)}`
             });
         }
-        
+
         // Multiplier (M) - show actual value used
         if (context.contractValue) {
             const explanation = explanations.M || 'Contract multiplier';
             const multiplierValue = context.multiplier || 100; // Default multiplier per contract
             const totalContracts = context.contracts || 1;
-            variables.push({ 
-                displayName: `${explanation} (M)`, 
-                value: `${multiplierValue} × ${totalContracts} = ${context.contractValue}` 
+            variables.push({
+                displayName: `${explanation} (M)`,
+                value: `${multiplierValue} × ${totalContracts} = ${context.contractValue}`
             });
         }
-        
+
         // Result - Max Risk
         if (!trade.riskIsUnlimited && Number.isFinite(maxRiskValue) && maxRiskValue > 0) {
-            variables.push({ 
-                displayName: 'Max Risk (Result)', 
-                value: `$${maxRiskValue.toFixed(2)}` 
+            variables.push({
+                displayName: 'Max Risk (Result)',
+                value: `$${maxRiskValue.toFixed(2)}`
             });
         } else if (trade.riskIsUnlimited || maxRiskValue === Number.POSITIVE_INFINITY) {
-            variables.push({ 
-                displayName: 'Max Risk (Result)', 
-                value: '∞ (Unlimited)' 
+            variables.push({
+                displayName: 'Max Risk (Result)',
+                value: '∞ (Unlimited)'
             });
         }
-        
+
         return variables;
     }
 
     buildPLVariables(trade, details) {
         const variables = [];
-        
+
         if (details && Number.isFinite(details.totalCredit)) {
-            variables.push({ 
-                displayName: 'Total Credits', 
-                value: `$${details.totalCredit.toFixed(2)}` 
+            variables.push({
+                displayName: 'Total Credits',
+                value: `$${details.totalCredit.toFixed(2)}`
             });
         }
-        
+
         if (details && Number.isFinite(details.totalDebit)) {
-            variables.push({ 
-                displayName: 'Total Debits', 
-                value: `$${details.totalDebit.toFixed(2)}` 
+            variables.push({
+                displayName: 'Total Debits',
+                value: `$${details.totalDebit.toFixed(2)}`
             });
         }
-        
+
         if (details && Number.isFinite(details.totalFees)) {
-            variables.push({ 
-                displayName: 'Fees', 
-                value: `$${details.totalFees.toFixed(2)}` 
+            variables.push({
+                displayName: 'Fees',
+                value: `$${details.totalFees.toFixed(2)}`
             });
         }
-        
+
         const plValue = Number(trade.pl);
         if (Number.isFinite(plValue)) {
-            variables.push({ 
-                displayName: 'P&L (Result)', 
-                value: `$${plValue.toFixed(2)}` 
+            variables.push({
+                displayName: 'P&L (Result)',
+                value: `$${plValue.toFixed(2)}`
             });
         }
-        
+
         return variables;
     }
 
@@ -3638,7 +3638,7 @@ class GammaLedger {
                     this.positionFormulaTooltip(wrapper, tooltip);
                 }
             };
-            
+
             window.addEventListener('scroll', handleScroll, { passive: true });
             wrapper.addEventListener('mouseleave', () => {
                 window.removeEventListener('scroll', handleScroll);
@@ -4007,7 +4007,7 @@ class GammaLedger {
 
         const underlyingInput = row.querySelector('[data-leg-field="underlyingPrice"]');
         const shouldAutoFillPrice = underlyingInput && !Number.isFinite(Number(leg?.underlyingPrice));
-        
+
         if (underlyingInput) {
             if (Number.isFinite(Number(leg?.underlyingPrice))) {
                 // Use provided underlying price (e.g., when editing existing leg)
@@ -4035,12 +4035,12 @@ class GammaLedger {
         this.applyUnderlyingTypeToLegMultipliers({ row, force: !leg });
         this.syncLegMultiplierVisibility(row);
         this.updateLegRowNumbers();
-        
+
         // Auto-fill underlying price AFTER row is in the DOM
         if (shouldAutoFillPrice) {
             this.autoFillUnderlyingPrice(underlyingInput);
         }
-        
+
         return row;
     }
 
@@ -4218,7 +4218,7 @@ class GammaLedger {
         if (newRow) {
             newRow.classList.add('trade-leg--highlight');
             newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
+
             // Focus on the premium field since that's what the user needs to enter
             setTimeout(() => {
                 const premiumInput = newRow.querySelector('[data-leg-field="premium"]');
@@ -4738,7 +4738,7 @@ class GammaLedger {
         let hasCloseActivity = false;
         let hasAssignmentEvent = false;
         let hasExpirationEvent = false;
-        
+
         // Track stock position separately (stocks don't expire)
         let stockBought = 0;
         let stockSold = 0;
@@ -4762,7 +4762,7 @@ class GammaLedger {
             const bucket = pairMap.get(key);
             const orderType = this.getNormalizedLegOrderType(leg);
             const legType = this.normalizeLegType(leg.type);
-            
+
             // Track stock positions separately for Wheel trades
             if (legType === 'STOCK') {
                 if (orderType === 'BTO') {
@@ -4772,7 +4772,7 @@ class GammaLedger {
                     hasCloseActivity = true;
                 }
             }
-            
+
             switch (orderType) {
                 case 'BTO':
                     bucket.longOpen += quantity;
@@ -4803,7 +4803,7 @@ class GammaLedger {
                 hasExpirationEvent = true;
             }
         });
-        
+
         // Check if there's an open stock position (stock bought but not sold)
         const hasOpenStockPosition = stockBought > stockSold;
 
@@ -4824,7 +4824,7 @@ class GammaLedger {
         // Options expire at 4 PM ET (market close), not midnight. 
         // Create expiration timestamp at 4 PM ET (16:00) plus 5 hours for UTC offset (21:00 UTC).
         // This ensures positions show as active on expiration day until after market close.
-        const expirationWithMarketClose = expirationDate 
+        const expirationWithMarketClose = expirationDate
             ? new Date(Date.UTC(
                 expirationDate.getUTCFullYear(),
                 expirationDate.getUTCMonth(),
@@ -4832,7 +4832,7 @@ class GammaLedger {
                 21, // 21:00 UTC = 16:00 ET (4 PM Eastern)
                 0,
                 0
-              ))
+            ))
             : null;
         const expirationPassed = expirationWithMarketClose ? now.getTime() > expirationWithMarketClose.getTime() : false;
 
@@ -4871,7 +4871,7 @@ class GammaLedger {
             }
             return result;
         }
-        
+
         // Wheel trade with open stock position - stays Open for continued Wheel strategy
         if (hasAssignmentEvent && hasOpenStockPosition) {
             result.status = 'Open';
@@ -4987,7 +4987,7 @@ class GammaLedger {
         // For trades with stock assignments, use total stock shares as quantity
         const openLegsForStock = legSummary.legs.filter(leg => this.getLegSide(leg) === 'OPEN');
         const stockLegs = openLegsForStock.filter(leg => leg.type === 'STOCK');
-        
+
         if (stockLegs.length > 0) {
             // Sum only OPEN stock shares (currently held)
             const totalShares = stockLegs.reduce((sum, leg) => {
@@ -5009,14 +5009,14 @@ class GammaLedger {
             const primaryType = (primaryLeg?.type || '').toUpperCase();
             const primaryStrike = Number(primaryLeg?.strike) || 0;
             const primaryExpiration = primaryLeg?.expirationDate || '';
-            
+
             const matchingOpenLegs = openLegsForStock.filter(leg => {
                 const type = (leg.type || '').toUpperCase();
                 const strike = Number(leg.strike) || 0;
                 const expiration = leg.expirationDate || '';
                 return type === primaryType && strike === primaryStrike && expiration === primaryExpiration;
             });
-            
+
             let totalQuantity = 0;
             if (matchingOpenLegs.length > 0) {
                 totalQuantity = matchingOpenLegs.reduce((sum, leg) => sum + Math.abs(Number(leg.quantity) || 0), 0);
@@ -5024,10 +5024,10 @@ class GammaLedger {
                 // Fall back to primary leg quantity
                 totalQuantity = primaryLeg ? Math.abs(Number(primaryLeg.quantity) || 0) : 0;
             }
-            
+
             enriched.quantity = enriched.tradeDirection === 'short' ? -totalQuantity : totalQuantity;
         }
-        
+
         enriched.strikePrice = this.derivePrimaryStrike(legSummary);
         enriched.multiplier = this.getLegMultiplier(primaryLeg);
         enriched.displayStrike = this.buildStrikeDisplay(enriched, legSummary);
@@ -5242,7 +5242,7 @@ class GammaLedger {
         if (this.isWheelTrade(trade) || this.isPmccTrade(trade)) {
             return true;
         }
-        
+
         // Also check for trades with assigned status that have stock legs
         // (in case strategy wasn't set correctly during import)
         if (this.isAssignedStatus(trade.status)) {
@@ -5255,7 +5255,7 @@ class GammaLedger {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -5351,8 +5351,8 @@ class GammaLedger {
             });
         }
 
-    this.setupImportControls();
-    this.setupTradesMergeControls();
+        this.setupImportControls();
+        this.setupTradesMergeControls();
 
         // Add trade form
         const addTradeForm = document.getElementById('add-trade-form');
@@ -5499,7 +5499,7 @@ class GammaLedger {
         this.setupResponsiveFilters();
         this.initializeCumulativePLControls();
         this.initializeAssignedPositionsStatusFilter();
-    this.initializeCreditPlaybookControls();
+        this.initializeCreditPlaybookControls();
     }
 
     setupResponsiveFilters() {
@@ -6335,7 +6335,7 @@ class GammaLedger {
 
         this.setTodayDate();
         this.updateTickerPreview('');
-        }
+    }
 
     parseDecimal(value, defaultValue = null, { allowNegative = true } = {}) {
         if (value === null || value === undefined) {
@@ -6544,10 +6544,10 @@ class GammaLedger {
             : 'Infinite';
         document.getElementById('active-positions').textContent = stats.activePositions;
         document.getElementById('assigned-positions').textContent = stats.assignedPositions;
-        
+
         // Update new metrics
         document.getElementById('collateral-at-risk').textContent = this.formatCurrency(stats.collateralAtRisk);
-        
+
         const realizedPLElement = document.getElementById('realized-pl');
         realizedPLElement.textContent = this.formatCurrency(stats.realizedPL);
         realizedPLElement.className = 'card-value';
@@ -6556,7 +6556,7 @@ class GammaLedger {
         } else if (stats.realizedPL < 0) {
             realizedPLElement.classList.add('pl-negative');
         }
-        
+
         const unrealizedPLElement = document.getElementById('unrealized-pl');
         unrealizedPLElement.textContent = this.formatCurrency(stats.unrealizedPL);
         unrealizedPLElement.className = 'card-value';
@@ -6565,7 +6565,7 @@ class GammaLedger {
         } else if (stats.unrealizedPL < 0) {
             unrealizedPLElement.classList.add('pl-negative');
         }
-        
+
         document.getElementById('total-roi').textContent = this.formatNumber(stats.totalROI, { style: 'percent' }) ?? '—';
 
         // Update new advanced metrics
@@ -6661,7 +6661,7 @@ class GammaLedger {
             });
             openTrades = Array.from(openTradeMap.values());
         }
-        
+
         // Exclude assigned trades from P&L calculations as they're transitions to stock positions
         const winningTrades = closedTrades.filter(trade => trade.pl > 0);
         const losingTrades = closedTrades.filter(trade => trade.pl < 0);
@@ -6705,22 +6705,22 @@ class GammaLedger {
         // where trade_weight = collateral_used × days_held (capital-days at risk)
         let totalWeight = 0;
         let weightedAnnualizedROISum = 0;
-        
+
         closedTrades.forEach(trade => {
             const collateral = this.getCapitalAtRisk(trade);
             const daysHeld = Math.max(1, Number(trade.daysHeld) || 0);
             const tradeAnnualizedROI = Number(trade.annualizedROI) || 0;
-            
+
             if (Number.isFinite(collateral) && collateral > 0 && Number.isFinite(tradeAnnualizedROI)) {
                 const tradeWeight = collateral * daysHeld;
                 totalWeight += tradeWeight;
                 weightedAnnualizedROISum += tradeAnnualizedROI * tradeWeight;
             }
         });
-        
+
         // Total ROI is now the weighted average annualized ROI
         const totalROI = totalWeight > 0 ? weightedAnnualizedROISum / totalWeight : 0;
-        
+
         // Keep avgDaysHeld for reference/other uses, annualizedROI is now same as totalROI
         const avgDaysHeld = closedTrades.length > 0 ? closedTrades.reduce((sum, trade) => sum + trade.daysHeld, 0) / closedTrades.length : 0;
         const annualizedROI = totalROI;
@@ -6814,13 +6814,13 @@ class GammaLedger {
         }, 0);
 
         // Calculate average win and average loss
-        const avgWin = winningTrades.length > 0 
-            ? winningTrades.reduce((sum, trade) => sum + trade.pl, 0) / winningTrades.length 
+        const avgWin = winningTrades.length > 0
+            ? winningTrades.reduce((sum, trade) => sum + trade.pl, 0) / winningTrades.length
             : 0;
-        const avgLoss = losingTrades.length > 0 
-            ? Math.abs(losingTrades.reduce((sum, trade) => sum + trade.pl, 0) / losingTrades.length) 
+        const avgLoss = losingTrades.length > 0
+            ? Math.abs(losingTrades.reduce((sum, trade) => sum + trade.pl, 0) / losingTrades.length)
             : 0;
-        
+
         // Calculate expectancy: (Win Rate × Avg Win) - (Loss Rate × Avg Loss)
         const winRateDecimal = closedTrades.length > 0 ? winningTrades.length / closedTrades.length : 0;
         const lossRateDecimal = closedTrades.length > 0 ? losingTrades.length / closedTrades.length : 0;
@@ -6871,353 +6871,353 @@ class GammaLedger {
     calculateAssignmentStats(assignedTrades) {
         const assignments = assignedTrades
             .map(trade => {
-            const legs = Array.isArray(trade.legs) ? trade.legs : [];
-            let positionType = 'other';
-            const isPmcc = this.isPmccTrade(trade);
-            if (isPmcc) {
-                positionType = 'pmcc';
-            } else if (this.isWheelOrPmccTrade(trade)) {
-                positionType = 'wheel';
-            }
-
-            const normalizedLegs = legs.map(leg => {
-                const type = (leg.type || leg.optionType || '').toString().trim().toUpperCase();
-                const action = this.getLegAction(leg);
-                const side = this.getLegSide(leg);
-                const executionDate = this.parseDateValue(leg.executionDate);
-                const quantity = Math.abs(Number(leg.quantity) || 0);
-                const multiplier = this.getLegMultiplier(leg) || 1;
-                const premium = Number(leg.premium) || 0;
-
-                return {
-                    leg,
-                    type,
-                    action,
-                    side,
-                    executionDate,
-                    quantity,
-                    multiplier,
-                    premium
-                };
-            });
-
-            // Find ALL stock legs (not just the first one)
-            const stockLegs = normalizedLegs.filter(item => item.type === 'STOCK' && item.action === 'BUY' && item.side === 'OPEN');
-            const stockLegInfo = stockLegs[0]; // Keep first for compatibility with strike/date logic
-            
-            if (positionType === 'other' && stockLegs.length > 0) {
-                positionType = 'wheel';
-            }
-            const stockDate = stockLegInfo?.executionDate || null;
-
-
-            let shares = 100;
-            if (stockLegs.length > 0) {
-                // Sum shares from ALL stock assignments
-                const totalShares = stockLegs.reduce((sum, item) => {
-                    const legShares = (item.quantity || 0) * (item.multiplier || 1);
-                    return sum + legShares;
-                }, 0);
-                if (totalShares > 0) {
-                    shares = totalShares;
+                const legs = Array.isArray(trade.legs) ? trade.legs : [];
+                let positionType = 'other';
+                const isPmcc = this.isPmccTrade(trade);
+                if (isPmcc) {
+                    positionType = 'pmcc';
+                } else if (this.isWheelOrPmccTrade(trade)) {
+                    positionType = 'wheel';
                 }
-            } else {
-                const referenceLeg = normalizedLegs.find(item => ['CALL', 'PUT'].includes(item.type) && item.quantity > 0 && item.multiplier > 0);
-                if (referenceLeg) {
-                    const computedShares = referenceLeg.quantity * referenceLeg.multiplier;
-                    if (computedShares > 0) {
-                        shares = computedShares;
-                    }
-                }
-            }
 
-            let assignmentStrike = Number(trade.strikePrice) || 0;
-            if (stockLegs.length > 0) {
-                // Calculate weighted average assignment strike from all stock legs
-                let totalCost = 0;
-                let totalShares = 0;
-                
-                stockLegs.forEach(item => {
-                    const legShares = (item.quantity || 0) * (item.multiplier || 1);
-                    const premiumPerShare = Number(item.leg.premium);
-                    const strikeFromLeg = Number(item.leg.strike);
-                    
-                    let pricePerShare = 0;
-                    if (Number.isFinite(strikeFromLeg) && strikeFromLeg > 0) {
-                        pricePerShare = strikeFromLeg;
-                    } else if (Number.isFinite(premiumPerShare) && premiumPerShare > 0) {
-                        pricePerShare = premiumPerShare;
-                    }
-                    
-                    if (pricePerShare > 0 && legShares > 0) {
-                        totalCost += pricePerShare * legShares;
-                        totalShares += legShares;
-                    }
+                const normalizedLegs = legs.map(leg => {
+                    const type = (leg.type || leg.optionType || '').toString().trim().toUpperCase();
+                    const action = this.getLegAction(leg);
+                    const side = this.getLegSide(leg);
+                    const executionDate = this.parseDateValue(leg.executionDate);
+                    const quantity = Math.abs(Number(leg.quantity) || 0);
+                    const multiplier = this.getLegMultiplier(leg) || 1;
+                    const premium = Number(leg.premium) || 0;
+
+                    return {
+                        leg,
+                        type,
+                        action,
+                        side,
+                        executionDate,
+                        quantity,
+                        multiplier,
+                        premium
+                    };
                 });
-                
-                if (totalShares > 0) {
-                    assignmentStrike = totalCost / totalShares; // Weighted average
+
+                // Find ALL stock legs (not just the first one)
+                const stockLegs = normalizedLegs.filter(item => item.type === 'STOCK' && item.action === 'BUY' && item.side === 'OPEN');
+                const stockLegInfo = stockLegs[0]; // Keep first for compatibility with strike/date logic
+
+                if (positionType === 'other' && stockLegs.length > 0) {
+                    positionType = 'wheel';
                 }
-            }
+                const stockDate = stockLegInfo?.executionDate || null;
 
-            const premiumHistory = [];
-            const addPremiumEvent = (item, amount, category) => {
-                const rawDate = item.leg.executionDate || (item.executionDate ? item.executionDate.toISOString().slice(0, 10) : '');
-                const formattedDate = this.formatDate(rawDate);
-                const actionParts = [];
-                if (item.action === 'SELL') {
-                    actionParts.push('Sell');
-                } else if (item.action === 'BUY') {
-                    actionParts.push('Buy');
-                }
 
-                if (item.type === 'CALL') {
-                    actionParts.push('Call');
-                } else if (item.type === 'PUT') {
-                    actionParts.push('Put');
-                }
-
-                if (item.side === 'OPEN') {
-                    actionParts.push('to Open');
-                } else if (item.side === 'CLOSE') {
-                    actionParts.push('to Close');
-                } else if (item.side === 'ROLL') {
-                    actionParts.push('Roll');
-                }
-
-                const label = actionParts.length > 0 ? `${formattedDate} · ${actionParts.join(' ')}` : formattedDate;
-
-                premiumHistory.push({
-                    date: rawDate,
-                    amount,
-                    label,
-                    category
-                });
-            };
-
-            const chronologicalLegs = [...normalizedLegs].sort((a, b) => {
-                const aDate = a.executionDate instanceof Date ? a.executionDate.getTime() : Number.NEGATIVE_INFINITY;
-                const bDate = b.executionDate instanceof Date ? b.executionDate.getTime() : Number.NEGATIVE_INFINITY;
-                if (aDate === bDate) {
-                    return 0;
-                }
-                return aDate - bDate;
-            });
-
-            let initialPutPremiumTotal = 0;
-            let callPremiumNet = 0;
-            let coveredCallSellCount = 0;
-            let longCallCost = 0;
-            let shortCallNet = 0;
-            let pmccShortStrike = 0;
-            let pmccSellCount = 0;
-
-            const pmccLongCallLegs = positionType === 'pmcc'
-                ? chronologicalLegs.filter(item => item.type === 'CALL' && item.action === 'BUY' && item.side === 'OPEN')
-                : [];
-            const longCallLegIds = new Set(pmccLongCallLegs.map(item => item.leg.id));
-            const primaryLongCall = pmccLongCallLegs.length > 0
-                ? pmccLongCallLegs.reduce((latest, current) => {
-                    const latestExp = this.parseDateValue(latest?.leg?.expirationDate) || this.parseDateValue(latest?.leg?.expiration) || null;
-                    const currentExp = this.parseDateValue(current?.leg?.expirationDate) || this.parseDateValue(current?.leg?.expiration) || null;
-                    if (!latestExp && currentExp) {
-                        return current;
+                let shares = 100;
+                if (stockLegs.length > 0) {
+                    // Sum shares from ALL stock assignments
+                    const totalShares = stockLegs.reduce((sum, item) => {
+                        const legShares = (item.quantity || 0) * (item.multiplier || 1);
+                        return sum + legShares;
+                    }, 0);
+                    if (totalShares > 0) {
+                        shares = totalShares;
                     }
-                    if (!currentExp) {
-                        return latest;
+                } else {
+                    const referenceLeg = normalizedLegs.find(item => ['CALL', 'PUT'].includes(item.type) && item.quantity > 0 && item.multiplier > 0);
+                    if (referenceLeg) {
+                        const computedShares = referenceLeg.quantity * referenceLeg.multiplier;
+                        if (computedShares > 0) {
+                            shares = computedShares;
+                        }
                     }
-                    return currentExp.getTime() > latestExp.getTime() ? current : latest;
-                })
-                : null;
-
-            let assignmentDateValue = trade.exitDate || trade.closedDate || null;
-            if (positionType === 'pmcc') {
-                const longCallExecution = primaryLongCall?.executionDate;
-                if (longCallExecution instanceof Date) {
-                    assignmentDateValue = longCallExecution.toISOString().slice(0, 10);
-                } else if (primaryLongCall?.leg?.executionDate) {
-                    assignmentDateValue = primaryLongCall.leg.executionDate;
-                }
-            } else if (stockDate instanceof Date) {
-                assignmentDateValue = stockDate.toISOString().slice(0, 10);
-            } else if (stockLegInfo?.leg?.executionDate) {
-                assignmentDateValue = stockLegInfo.leg.executionDate;
-            }
-
-            chronologicalLegs.forEach(item => {
-                if (!['PUT', 'CALL'].includes(item.type)) {
-                    return;
                 }
 
-                const cashFlow = this.calculateLegCashFlow(item.leg);
-                if (!Number.isFinite(cashFlow) || cashFlow === 0) {
-                    return;
-                }
+                let assignmentStrike = Number(trade.strikePrice) || 0;
+                if (stockLegs.length > 0) {
+                    // Calculate weighted average assignment strike from all stock legs
+                    let totalCost = 0;
+                    let totalShares = 0;
 
-                if (positionType === 'pmcc') {
-                    if (item.type === 'CALL') {
-                        const isLongCallOpenLeg = longCallLegIds.has(item.leg.id);
-                        if (isLongCallOpenLeg) {
-                            longCallCost += Math.abs(cashFlow);
-                            addPremiumEvent(item, cashFlow, 'LONG_CALL');
-                            if (!assignmentStrike) {
-                                const lcStrike = Number(item.leg.strike);
-                                if (Number.isFinite(lcStrike) && lcStrike > 0) {
-                                    assignmentStrike = lcStrike;
-                                }
-                            }
-                            return;
+                    stockLegs.forEach(item => {
+                        const legShares = (item.quantity || 0) * (item.multiplier || 1);
+                        const premiumPerShare = Number(item.leg.premium);
+                        const strikeFromLeg = Number(item.leg.strike);
+
+                        let pricePerShare = 0;
+                        if (Number.isFinite(strikeFromLeg) && strikeFromLeg > 0) {
+                            pricePerShare = strikeFromLeg;
+                        } else if (Number.isFinite(premiumPerShare) && premiumPerShare > 0) {
+                            pricePerShare = premiumPerShare;
                         }
 
-                        shortCallNet += cashFlow;
+                        if (pricePerShare > 0 && legShares > 0) {
+                            totalCost += pricePerShare * legShares;
+                            totalShares += legShares;
+                        }
+                    });
+
+                    if (totalShares > 0) {
+                        assignmentStrike = totalCost / totalShares; // Weighted average
+                    }
+                }
+
+                const premiumHistory = [];
+                const addPremiumEvent = (item, amount, category) => {
+                    const rawDate = item.leg.executionDate || (item.executionDate ? item.executionDate.toISOString().slice(0, 10) : '');
+                    const formattedDate = this.formatDate(rawDate);
+                    const actionParts = [];
+                    if (item.action === 'SELL') {
+                        actionParts.push('Sell');
+                    } else if (item.action === 'BUY') {
+                        actionParts.push('Buy');
+                    }
+
+                    if (item.type === 'CALL') {
+                        actionParts.push('Call');
+                    } else if (item.type === 'PUT') {
+                        actionParts.push('Put');
+                    }
+
+                    if (item.side === 'OPEN') {
+                        actionParts.push('to Open');
+                    } else if (item.side === 'CLOSE') {
+                        actionParts.push('to Close');
+                    } else if (item.side === 'ROLL') {
+                        actionParts.push('Roll');
+                    }
+
+                    const label = actionParts.length > 0 ? `${formattedDate} · ${actionParts.join(' ')}` : formattedDate;
+
+                    premiumHistory.push({
+                        date: rawDate,
+                        amount,
+                        label,
+                        category
+                    });
+                };
+
+                const chronologicalLegs = [...normalizedLegs].sort((a, b) => {
+                    const aDate = a.executionDate instanceof Date ? a.executionDate.getTime() : Number.NEGATIVE_INFINITY;
+                    const bDate = b.executionDate instanceof Date ? b.executionDate.getTime() : Number.NEGATIVE_INFINITY;
+                    if (aDate === bDate) {
+                        return 0;
+                    }
+                    return aDate - bDate;
+                });
+
+                let initialPutPremiumTotal = 0;
+                let callPremiumNet = 0;
+                let coveredCallSellCount = 0;
+                let longCallCost = 0;
+                let shortCallNet = 0;
+                let pmccShortStrike = 0;
+                let pmccSellCount = 0;
+
+                const pmccLongCallLegs = positionType === 'pmcc'
+                    ? chronologicalLegs.filter(item => item.type === 'CALL' && item.action === 'BUY' && item.side === 'OPEN')
+                    : [];
+                const longCallLegIds = new Set(pmccLongCallLegs.map(item => item.leg.id));
+                const primaryLongCall = pmccLongCallLegs.length > 0
+                    ? pmccLongCallLegs.reduce((latest, current) => {
+                        const latestExp = this.parseDateValue(latest?.leg?.expirationDate) || this.parseDateValue(latest?.leg?.expiration) || null;
+                        const currentExp = this.parseDateValue(current?.leg?.expirationDate) || this.parseDateValue(current?.leg?.expiration) || null;
+                        if (!latestExp && currentExp) {
+                            return current;
+                        }
+                        if (!currentExp) {
+                            return latest;
+                        }
+                        return currentExp.getTime() > latestExp.getTime() ? current : latest;
+                    })
+                    : null;
+
+                let assignmentDateValue = trade.exitDate || trade.closedDate || null;
+                if (positionType === 'pmcc') {
+                    const longCallExecution = primaryLongCall?.executionDate;
+                    if (longCallExecution instanceof Date) {
+                        assignmentDateValue = longCallExecution.toISOString().slice(0, 10);
+                    } else if (primaryLongCall?.leg?.executionDate) {
+                        assignmentDateValue = primaryLongCall.leg.executionDate;
+                    }
+                } else if (stockDate instanceof Date) {
+                    assignmentDateValue = stockDate.toISOString().slice(0, 10);
+                } else if (stockLegInfo?.leg?.executionDate) {
+                    assignmentDateValue = stockLegInfo.leg.executionDate;
+                }
+
+                chronologicalLegs.forEach(item => {
+                    if (!['PUT', 'CALL'].includes(item.type)) {
+                        return;
+                    }
+
+                    const cashFlow = this.calculateLegCashFlow(item.leg);
+                    if (!Number.isFinite(cashFlow) || cashFlow === 0) {
+                        return;
+                    }
+
+                    if (positionType === 'pmcc') {
+                        if (item.type === 'CALL') {
+                            const isLongCallOpenLeg = longCallLegIds.has(item.leg.id);
+                            if (isLongCallOpenLeg) {
+                                longCallCost += Math.abs(cashFlow);
+                                addPremiumEvent(item, cashFlow, 'LONG_CALL');
+                                if (!assignmentStrike) {
+                                    const lcStrike = Number(item.leg.strike);
+                                    if (Number.isFinite(lcStrike) && lcStrike > 0) {
+                                        assignmentStrike = lcStrike;
+                                    }
+                                }
+                                return;
+                            }
+
+                            shortCallNet += cashFlow;
+                            addPremiumEvent(item, cashFlow, 'CALL');
+
+                            if (item.action === 'SELL' && (item.side === 'OPEN' || item.side === 'ROLL')) {
+                                pmccSellCount += Math.max(item.quantity || 1, 1);
+                                const strikeValue = Number(item.leg.strike);
+                                if (Number.isFinite(strikeValue) && strikeValue > 0) {
+                                    pmccShortStrike = strikeValue;
+                                }
+                            }
+                        }
+                        return;
+                    }
+
+                    const occursBeforeOrOnAssignment = stockDate
+                        ? (!item.executionDate || item.executionDate <= stockDate)
+                        : true;
+
+                    const occursAfterAssignment = stockDate
+                        ? (!item.executionDate || item.executionDate >= stockDate)
+                        : true;
+
+                    if (item.type === 'PUT' && occursBeforeOrOnAssignment) {
+                        initialPutPremiumTotal += cashFlow;
+                        addPremiumEvent(item, cashFlow, 'PUT');
+
+                        if (!assignmentStrike) {
+                            const strikeFromPut = Number(item.leg.strike);
+                            if (Number.isFinite(strikeFromPut) && strikeFromPut > 0) {
+                                assignmentStrike = strikeFromPut;
+                            }
+                        }
+                        return;
+                    }
+
+                    if (item.type === 'CALL' && occursAfterAssignment) {
+                        callPremiumNet += cashFlow;
                         addPremiumEvent(item, cashFlow, 'CALL');
 
                         if (item.action === 'SELL' && (item.side === 'OPEN' || item.side === 'ROLL')) {
-                            pmccSellCount += Math.max(item.quantity || 1, 1);
-                            const strikeValue = Number(item.leg.strike);
-                            if (Number.isFinite(strikeValue) && strikeValue > 0) {
-                                pmccShortStrike = strikeValue;
+                            coveredCallSellCount += Math.max(item.quantity || 1, 1);
+                            if (!assignmentStrike) {
+                                const strikeValue = Number(item.leg.strike);
+                                if (Number.isFinite(strikeValue) && strikeValue > 0) {
+                                    assignmentStrike = strikeValue;
+                                }
                             }
                         }
                     }
-                    return;
-                }
+                });
 
-                const occursBeforeOrOnAssignment = stockDate
-                    ? (!item.executionDate || item.executionDate <= stockDate)
-                    : true;
+                premiumHistory.sort((a, b) => {
+                    const aDate = this.parseDateValue(a.date);
+                    const bDate = this.parseDateValue(b.date);
+                    const aTime = aDate ? aDate.getTime() : 0;
+                    const bTime = bDate ? bDate.getTime() : 0;
+                    return aTime - bTime;
+                });
 
-                const occursAfterAssignment = stockDate
-                    ? (!item.executionDate || item.executionDate >= stockDate)
-                    : true;
-
-                if (item.type === 'PUT' && occursBeforeOrOnAssignment) {
-                    initialPutPremiumTotal += cashFlow;
-                    addPremiumEvent(item, cashFlow, 'PUT');
-
-                    if (!assignmentStrike) {
-                        const strikeFromPut = Number(item.leg.strike);
-                        if (Number.isFinite(strikeFromPut) && strikeFromPut > 0) {
-                            assignmentStrike = strikeFromPut;
-                        }
+                if (positionType === 'pmcc') {
+                    if (pmccShortStrike && !stockLegInfo) {
+                        assignmentStrike = pmccShortStrike;
                     }
-                    return;
-                }
-
-                if (item.type === 'CALL' && occursAfterAssignment) {
-                    callPremiumNet += cashFlow;
-                    addPremiumEvent(item, cashFlow, 'CALL');
-
-                    if (item.action === 'SELL' && (item.side === 'OPEN' || item.side === 'ROLL')) {
-                        coveredCallSellCount += Math.max(item.quantity || 1, 1);
-                        if (!assignmentStrike) {
-                            const strikeValue = Number(item.leg.strike);
-                            if (Number.isFinite(strikeValue) && strikeValue > 0) {
-                                assignmentStrike = strikeValue;
-                            }
+                    if (!assignmentStrike && primaryLongCall) {
+                        const longStrike = Number(primaryLongCall.leg.strike);
+                        if (Number.isFinite(longStrike) && longStrike > 0) {
+                            assignmentStrike = longStrike;
                         }
                     }
                 }
-            });
 
-            premiumHistory.sort((a, b) => {
-                const aDate = this.parseDateValue(a.date);
-                const bDate = this.parseDateValue(b.date);
-                const aTime = aDate ? aDate.getTime() : 0;
-                const bTime = bDate ? bDate.getTime() : 0;
-                return aTime - bTime;
-            });
+                let totalPremiumCollected;
+                let perSharePutCredit = 0;
+                let perShareCallCredit = 0;
+                let costBasisPerShare = 0;
+                let effectiveCostBasis = 0;
+                let assignmentCostBasis = 0;
 
-            if (positionType === 'pmcc') {
-                if (pmccShortStrike && !stockLegInfo) {
-                    assignmentStrike = pmccShortStrike;
-                }
-                if (!assignmentStrike && primaryLongCall) {
-                    const longStrike = Number(primaryLongCall.leg.strike);
-                    if (Number.isFinite(longStrike) && longStrike > 0) {
-                        assignmentStrike = longStrike;
+                if (positionType === 'pmcc') {
+                    totalPremiumCollected = shortCallNet;
+                    const longCallTotalCost = longCallCost;
+                    assignmentCostBasis = longCallTotalCost;
+                    const effectiveTotal = longCallTotalCost - shortCallNet;
+                    effectiveCostBasis = effectiveTotal;
+                    costBasisPerShare = shares > 0 ? effectiveTotal / shares : 0;
+                } else {
+                    totalPremiumCollected = initialPutPremiumTotal + callPremiumNet;
+                    perSharePutCredit = shares > 0 ? initialPutPremiumTotal / shares : 0;
+                    perShareCallCredit = shares > 0 ? callPremiumNet / shares : 0;
+
+                    if (Number.isFinite(assignmentStrike) && assignmentStrike !== 0) {
+                        costBasisPerShare = assignmentStrike - perSharePutCredit - perShareCallCredit;
+                        effectiveCostBasis = shares > 0 ? costBasisPerShare * shares : 0;
+                        assignmentCostBasis = assignmentStrike * shares;
                     }
                 }
-            }
-
-            let totalPremiumCollected;
-            let perSharePutCredit = 0;
-            let perShareCallCredit = 0;
-            let costBasisPerShare = 0;
-            let effectiveCostBasis = 0;
-            let assignmentCostBasis = 0;
-
-            if (positionType === 'pmcc') {
-                totalPremiumCollected = shortCallNet;
-                const longCallTotalCost = longCallCost;
-                assignmentCostBasis = longCallTotalCost;
-                const effectiveTotal = longCallTotalCost - shortCallNet;
-                effectiveCostBasis = effectiveTotal;
-                costBasisPerShare = shares > 0 ? effectiveTotal / shares : 0;
-            } else {
-                totalPremiumCollected = initialPutPremiumTotal + callPremiumNet;
-                perSharePutCredit = shares > 0 ? initialPutPremiumTotal / shares : 0;
-                perShareCallCredit = shares > 0 ? callPremiumNet / shares : 0;
-
-                if (Number.isFinite(assignmentStrike) && assignmentStrike !== 0) {
-                    costBasisPerShare = assignmentStrike - perSharePutCredit - perShareCallCredit;
-                    effectiveCostBasis = shares > 0 ? costBasisPerShare * shares : 0;
-                    assignmentCostBasis = assignmentStrike * shares;
+                if (positionType === 'pmcc' && !Number.isFinite(assignmentCostBasis)) {
+                    assignmentCostBasis = 0;
                 }
-            }
-            if (positionType === 'pmcc' && !Number.isFinite(assignmentCostBasis)) {
-                assignmentCostBasis = 0;
-            }
-            if (positionType === 'pmcc' && !Number.isFinite(effectiveCostBasis)) {
-                effectiveCostBasis = 0;
-                costBasisPerShare = 0;
-            }
+                if (positionType === 'pmcc' && !Number.isFinite(effectiveCostBasis)) {
+                    effectiveCostBasis = 0;
+                    costBasisPerShare = 0;
+                }
 
-            if (positionType === 'other') {
-                return null;
-            }
+                if (positionType === 'other') {
+                    return null;
+                }
 
-            // Calculate coverage: how many shares are covered by active short calls
-            const rawLegs = Array.isArray(trade.legs) ? trade.legs : [];
-            const shortCallInfo = this.getNetOpenShortCalls(rawLegs);
-            const activeShortCalls = shortCallInfo.contracts;
-            
-            // Standard contract = 100 shares per contract
-            const multiplier = 100;
-            const coveredShares = activeShortCalls * multiplier;
-            const uncoveredShares = Math.max(0, shares - coveredShares);
-            
-            // Coverage status: 'full', 'partial', 'none'
-            let coverageStatus = 'none';
-            if (coveredShares >= shares && shares > 0) {
-                coverageStatus = 'full';
-            } else if (coveredShares > 0 && coveredShares < shares) {
-                coverageStatus = 'partial';
-            }
+                // Calculate coverage: how many shares are covered by active short calls
+                const rawLegs = Array.isArray(trade.legs) ? trade.legs : [];
+                const shortCallInfo = this.getNetOpenShortCalls(rawLegs);
+                const activeShortCalls = shortCallInfo.contracts;
 
-            return {
-                trade,
-                positionType,
-                strike: assignmentStrike,
-                initialPutPremium: initialPutPremiumTotal,
-                callPremium: positionType === 'pmcc' ? shortCallNet : callPremiumNet,
-                longCallCost: positionType === 'pmcc' ? longCallCost : 0,
-                premiumCollected: totalPremiumCollected,
-                premiumHistory,
-                coveredCallCount: positionType === 'pmcc' ? pmccSellCount : coveredCallSellCount,
-                costBasisPerShare,
-                effectiveCostBasis,
-                shares,
-                assignmentCostBasis,
-                assignmentDate: assignmentDateValue,
-                // Coverage tracking
-                activeShortCalls,
-                activeShortCallDetails: shortCallInfo.details,
-                coveredShares,
-                uncoveredShares,
-                coverageStatus
-            };
-        })
+                // Standard contract = 100 shares per contract
+                const multiplier = 100;
+                const coveredShares = activeShortCalls * multiplier;
+                const uncoveredShares = Math.max(0, shares - coveredShares);
+
+                // Coverage status: 'full', 'partial', 'none'
+                let coverageStatus = 'none';
+                if (coveredShares >= shares && shares > 0) {
+                    coverageStatus = 'full';
+                } else if (coveredShares > 0 && coveredShares < shares) {
+                    coverageStatus = 'partial';
+                }
+
+                return {
+                    trade,
+                    positionType,
+                    strike: assignmentStrike,
+                    initialPutPremium: initialPutPremiumTotal,
+                    callPremium: positionType === 'pmcc' ? shortCallNet : callPremiumNet,
+                    longCallCost: positionType === 'pmcc' ? longCallCost : 0,
+                    premiumCollected: totalPremiumCollected,
+                    premiumHistory,
+                    coveredCallCount: positionType === 'pmcc' ? pmccSellCount : coveredCallSellCount,
+                    costBasisPerShare,
+                    effectiveCostBasis,
+                    shares,
+                    assignmentCostBasis,
+                    assignmentDate: assignmentDateValue,
+                    // Coverage tracking
+                    activeShortCalls,
+                    activeShortCallDetails: shortCallInfo.details,
+                    coveredShares,
+                    uncoveredShares,
+                    coverageStatus
+                };
+            })
             .filter(Boolean);
 
         const totalAssignments = assignments.filter(assignment => !this.isClosedStatus(assignment.trade.status)).length;
@@ -7287,7 +7287,7 @@ class GammaLedger {
         if (this.isActiveStatus(trade.status)) {
             return true;
         }
-        
+
         // Also include Assigned Wheel/PMCC trades that have net open option legs
         // (i.e., unclosed covered calls or puts)
         if (this.isAssignmentTrade(trade) && this.isWheelOrPmccTrade(trade)) {
@@ -7295,7 +7295,7 @@ class GammaLedger {
                 return true;
             }
         }
-        
+
         return false;
     })) {
         const tbody = document.querySelector('#active-positions-table tbody');
@@ -7491,7 +7491,7 @@ class GammaLedger {
 
             filteredAssignments.forEach(({ trade, strike, premiumCollected, premiumHistory, effectiveCostBasis, shares, initialPutPremium, callPremium, longCallCost, positionType, assignmentCostBasis, assignmentDate, activeShortCalls, activeShortCallDetails, coveredShares, uncoveredShares, coverageStatus }) => {
                 const row = tbody.insertRow();
-                
+
                 // Ticker
                 const tickerCell = row.insertCell(0);
                 const tickerValue = (trade.ticker ?? '').toString().trim().toUpperCase();
@@ -7520,10 +7520,10 @@ class GammaLedger {
                 const coverageCell = row.insertCell(3);
                 const coverageWrapper = document.createElement('div');
                 coverageWrapper.className = 'coverage-indicator-wrapper';
-                
+
                 const coverageBadge = document.createElement('span');
                 coverageBadge.className = 'coverage-badge';
-                
+
                 // For closed positions, don't show coverage status
                 if (!isOpen) {
                     coverageBadge.classList.add('coverage-na');
@@ -7550,7 +7550,7 @@ class GammaLedger {
                     coverageBadge.innerHTML = `<span class="coverage-alert-icon">⚡</span> Uncovered`;
                     coverageBadge.title = `${shares} shares have no active covered call\nSell a call to collect premium and reduce cost basis`;
                 }
-                
+
                 coverageWrapper.appendChild(coverageBadge);
                 coverageCell.appendChild(coverageWrapper);
 
@@ -7721,7 +7721,7 @@ class GammaLedger {
                 this.assignedPositionsQuoteEntries = new Map();
             }
             this.assignedPositionsQuoteEntries = quoteEntries;
-            
+
             // Merge with existing quote entries for unified refresh
             if (quoteEntries.size > 0) {
                 quoteEntries.forEach((entry, key) => {
@@ -7729,7 +7729,7 @@ class GammaLedger {
                 });
                 this.rebuildQuoteRefreshSchedule();
                 this.startQuoteAutoRefreshIfNeeded();
-                
+
                 // Trigger initial quote fetch for assigned positions
                 this.refreshAssignedPositionsQuotes({ immediate: true });
             }
@@ -7757,7 +7757,7 @@ class GammaLedger {
             // Check if this entry needs a price (no market value displayed or shows error)
             const marketValueText = entry.marketValueCell?.textContent || '';
             const hasNoPrice = !marketValueText || marketValueText === '—' || marketValueText === 'Loading…';
-            
+
             if (hasNoPrice) {
                 entryToRefresh = entry;
                 keyToRefresh = key;
@@ -7986,9 +7986,9 @@ class GammaLedger {
     setCreditPlaybookHorizon(horizon) {
         const allowed = new Set(['all', '7d', '14d', '30d', '90d', '180d', '365d', 'mtd', 'ytd']);
         const normalized = allowed.has(horizon) ? horizon : 'all';
-        
+
         const hasChanged = normalized !== this.creditPlaybookHorizon;
-        
+
         if (!hasChanged) {
             // Still update dropdown if needed
             const select = document.getElementById('credit-playbook-horizon-filter');
@@ -7997,14 +7997,14 @@ class GammaLedger {
             }
             return;
         }
-        
+
         this.creditPlaybookHorizon = normalized;
-        
+
         const select = document.getElementById('credit-playbook-horizon-filter');
         if (select && select.value !== normalized) {
             select.value = normalized;
         }
-        
+
         this.updateCreditPlaybookView();
     }
 
@@ -8560,7 +8560,7 @@ class GammaLedger {
             const statusCell = row.insertCell(columnIndex++);
             const statusBadge = document.createElement('span');
             statusBadge.className = 'status-badge';
-            
+
             let statusClass, statusText;
             if (pair.isRolling) {
                 statusClass = 'rolling';
@@ -8575,7 +8575,7 @@ class GammaLedger {
                 statusClass = 'closed';
                 statusText = 'Closed';
             }
-            
+
             statusBadge.classList.add(statusClass);
             statusBadge.textContent = statusText;
             statusCell.appendChild(statusBadge);
@@ -8615,7 +8615,7 @@ class GammaLedger {
                 const quoteKey = `${baseQuoteKey}|creditPlaybook:${legPairs.indexOf(pair)}`;
                 row.dataset.quoteKey = quoteKey;
                 row.dataset.ticker = pair.ticker;
-                
+
                 // Store strike for ITM detection
                 if (typeof pair.strike === 'string' && pair.strike.includes('/')) {
                     // For spreads, use first strike for highlighting
@@ -8624,7 +8624,7 @@ class GammaLedger {
                 } else if (Number.isFinite(pair.strike)) {
                     row.dataset.strikePrice = String(pair.strike);
                 }
-                
+
                 // Create mock trade object for quote fetching
                 const mockTrade = {
                     ticker: pair.ticker,
@@ -8632,10 +8632,10 @@ class GammaLedger {
                     strategy: pair.strategy,
                     dte: pair.dte
                 };
-                
+
                 // Populate quote cell with deferred fetch
                 this.populateQuoteCell(currentPriceCell, mockTrade, row, { deferNetworkFetch: true });
-                
+
                 // Track for quote updates
                 if (!this.creditPlaybookQuoteEntries) {
                     this.creditPlaybookQuoteEntries = new Map();
@@ -8660,7 +8660,7 @@ class GammaLedger {
             // DTE
             const dteCell = row.insertCell(columnIndex++);
             dteCell.textContent = Number.isFinite(pair.dte) ? pair.dte : '—';
-            
+
             // Apply DTE highlighting for open positions
             if (pair.isOpen && statusClass !== 'closed') {
                 const mockTrade = { dte: pair.dte };
@@ -8693,7 +8693,7 @@ class GammaLedger {
                 'Days Held'
             ]);
         });
-        
+
         // Trigger quote fetching and auto-refresh for Credit Playbook if we have entries
         if (this.creditPlaybookQuoteEntries && this.creditPlaybookQuoteEntries.size > 0) {
             this.startQuoteAutoRefreshIfNeeded();
@@ -8748,7 +8748,7 @@ class GammaLedger {
         const hasMultipleExpirations = expirationGroups.size > 1;
         const tradeStatus = (trade.status || '').toLowerCase();
         const isRolling = tradeStatus === 'rolling' || tradeStatus === 'rolled';
-        
+
         if (hasMultipleExpirations || isRolling) {
             // Handle as a single rolled spread position
             this.extractRolledSpread(trade, optionLegs, now, pairs);
@@ -8792,11 +8792,11 @@ class GammaLedger {
             const legPremium = Number(leg.premium) || 0;
             const multiplier = this.getLegMultiplier(leg);
             const direction = legAction === 'SELL' ? 1 : -1;
-            
+
             // Track gross premium (before fees)
             totalGrossPremium += direction * legPremium * multiplier * legQuantity;
             totalFees += Number(leg.fees) || 0;
-            
+
             if (legSide === 'OPEN') {
                 quantity = Math.max(quantity, Math.abs(Number(leg.quantity) || 0));
                 currentExpiration = leg.expirationDate;
@@ -8805,7 +8805,7 @@ class GammaLedger {
                     currentStrikes.push(strike);
                 }
             }
-            
+
             const legDate = this.parseDateValue(leg.executionDate);
             if (legDate) {
                 if (!entryDate || legDate < entryDate) {
@@ -8828,16 +8828,16 @@ class GammaLedger {
         const hasExpired = expirationDate && expirationDate < now;
         const hasOpenLegs = openingLegs.length > 0;
         const hasCloseLegs = closingLegs.length > 0;
-        
+
         // Spread is rolling if it has both open and close legs
         const isRolling = hasOpenLegs && hasCloseLegs;
         const isOpen = hasOpenLegs && !hasExpired;
 
         // Calculate metrics
         const dte = isOpen && expirationDate && !isRolling
-            ? Math.ceil((expirationDate.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)) 
+            ? Math.ceil((expirationDate.getTime() - now.getTime()) / (24 * 60 * 60 * 1000))
             : null;
-        
+
         const daysHeld = entryDate && (exitDate || hasExpired)
             ? Math.ceil(((exitDate || expirationDate || now).getTime() - entryDate.getTime()) / (24 * 60 * 60 * 1000))
             : (entryDate ? Math.ceil((now.getTime() - entryDate.getTime()) / (24 * 60 * 60 * 1000)) : null);
@@ -8845,10 +8845,10 @@ class GammaLedger {
         const multiplier = 100;
         // For rolled spreads, price per contract is total gross premium / (quantity * multiplier)
         const pricePerContract = quantity > 0 ? totalGrossPremium / (quantity * multiplier) : 0;
-        
+
         // For spreads, capital is width of strikes * quantity * multiplier
-        const width = uniqueStrikes.length >= 2 
-            ? uniqueStrikes[uniqueStrikes.length - 1] - uniqueStrikes[0] 
+        const width = uniqueStrikes.length >= 2
+            ? uniqueStrikes[uniqueStrikes.length - 1] - uniqueStrikes[0]
             : 0;
         const capital = width > 0 ? Math.abs(width * quantity * multiplier) : 0;
         const netPremium = totalGrossPremium - totalFees;
@@ -8906,11 +8906,11 @@ class GammaLedger {
             const legPremium = Number(leg.premium) || 0;
             const multiplier = this.getLegMultiplier(leg);
             const direction = legAction === 'SELL' ? 1 : -1;
-            
+
             totalGrossPremium += direction * legPremium * multiplier * legQuantity;
             totalFees += Number(leg.fees) || 0;
             quantity = Math.max(quantity, Math.abs(Number(leg.quantity) || 0));
-            
+
             const legDate = this.parseDateValue(leg.executionDate);
             if (legDate && (!entryDate || legDate < entryDate)) {
                 entryDate = legDate;
@@ -8923,10 +8923,10 @@ class GammaLedger {
             const legPremium = Number(leg.premium) || 0;
             const multiplier = this.getLegMultiplier(leg);
             const direction = legAction === 'SELL' ? 1 : -1;
-            
+
             totalGrossPremium += direction * legPremium * multiplier * legQuantity;
             totalFees += Number(leg.fees) || 0;
-            
+
             const legDate = this.parseDateValue(leg.executionDate);
             if (legDate && (!exitDate || legDate > exitDate)) {
                 exitDate = legDate;
@@ -8939,17 +8939,17 @@ class GammaLedger {
         const isOpen = openingLegs.length > 0 && closingLegs.length === 0 && !hasExpired;
 
         // Calculate metrics
-        const dte = isOpen && expirationDate 
-            ? Math.ceil((expirationDate.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)) 
+        const dte = isOpen && expirationDate
+            ? Math.ceil((expirationDate.getTime() - now.getTime()) / (24 * 60 * 60 * 1000))
             : null;
-        
+
         const daysHeld = entryDate && (exitDate || hasExpired)
             ? Math.ceil(((exitDate || expirationDate || now).getTime() - entryDate.getTime()) / (24 * 60 * 60 * 1000))
             : (entryDate ? Math.ceil((now.getTime() - entryDate.getTime()) / (24 * 60 * 60 * 1000)) : null);
 
         const multiplier = 100;
         const pricePerContract = quantity > 0 ? totalGrossPremium / (quantity * multiplier) : 0;
-        
+
         // For spreads, capital is width of strikes * quantity * multiplier
         const width = strikes.length >= 2 ? Math.max(...strikes) - Math.min(...strikes) : 0;
         const capital = width > 0 ? Math.abs(width * quantity * multiplier) : 0;
@@ -8984,10 +8984,10 @@ class GammaLedger {
     extractIndividualLegPairs(trade, legs, now, pairs) {
         // For naked options, we need to track all legs with same strike/type across different expirations
         // to properly handle rolls
-        
+
         // Group all legs by strike and type (not expiration) to detect rolls
         const strikeTypeGroups = new Map();
-        
+
         legs.forEach((leg) => {
             if (leg.type !== 'CALL' && leg.type !== 'PUT') {
                 return; // Skip non-option legs
@@ -9059,7 +9059,7 @@ class GammaLedger {
             const legPremium = Number(leg.premium) || 0;
             const multiplier = this.getLegMultiplier(leg);
             const direction = action === 'SELL' ? 1 : -1;
-            
+
             totalGrossPremium += direction * legPremium * multiplier * quantity;
             totalFees += Number(leg.fees) || 0;
 
@@ -9077,7 +9077,7 @@ class GammaLedger {
                     netQuantity += quantity;
                 }
             }
-            
+
             const legDate = this.parseDateValue(leg.executionDate);
             if (legDate) {
                 if (!entryDate || legDate < entryDate) {
@@ -9096,7 +9096,7 @@ class GammaLedger {
         const hasExpired = expirationDate && expirationDate < now;
         const hasOpenLegs = sortedLegs.some(leg => this.getLegSide(leg) === 'OPEN');
         const hasCloseLegs = sortedLegs.some(leg => this.getLegSide(leg) === 'CLOSE');
-        
+
         // Position is rolling if it has both open and close legs but isn't fully closed
         const isRolling = hasOpenLegs && hasCloseLegs && netQuantity !== 0;
         const isOpen = netQuantity !== 0 && !hasExpired;
@@ -9112,9 +9112,9 @@ class GammaLedger {
 
         // Calculate metrics
         const dte = isOpen && expirationDate && !isRolling
-            ? Math.ceil((expirationDate.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)) 
+            ? Math.ceil((expirationDate.getTime() - now.getTime()) / (24 * 60 * 60 * 1000))
             : null;
-        
+
         const daysHeld = entryDate && (exitDate || hasExpired)
             ? Math.ceil(((exitDate || expirationDate || now).getTime() - entryDate.getTime()) / (24 * 60 * 60 * 1000))
             : (entryDate ? Math.ceil((now.getTime() - entryDate.getTime()) / (24 * 60 * 60 * 1000)) : null);
@@ -9170,7 +9170,7 @@ class GammaLedger {
             const legPremium = Number(leg.premium) || 0;
             const multiplier = this.getLegMultiplier(leg);
             const direction = action === 'SELL' ? 1 : -1;
-            
+
             if (action === 'SELL') {
                 netQuantity += quantity;
             } else if (action === 'BUY') {
@@ -9179,7 +9179,7 @@ class GammaLedger {
 
             totalGrossPremium += direction * legPremium * multiplier * quantity;
             totalFees += Number(leg.fees) || 0;
-            
+
             const legDate = this.parseDateValue(leg.executionDate);
             if (legDate && (!entryDate || legDate < entryDate)) {
                 entryDate = legDate;
@@ -9198,10 +9198,10 @@ class GammaLedger {
             } else if (action === 'SELL') {
                 netQuantity += quantity;
             }
-            
+
             totalGrossPremium += direction * legPremium * multiplier * quantity;
             totalFees += Number(leg.fees) || 0;
-            
+
             const legDate = this.parseDateValue(leg.executionDate);
             if (legDate && (!exitDate || legDate > exitDate)) {
                 exitDate = legDate;
@@ -9223,10 +9223,10 @@ class GammaLedger {
         const absoluteQuantity = Math.abs(netQuantity);
 
         // Calculate metrics
-        const dte = isOpen && expirationDate 
-            ? Math.ceil((expirationDate.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)) 
+        const dte = isOpen && expirationDate
+            ? Math.ceil((expirationDate.getTime() - now.getTime()) / (24 * 60 * 60 * 1000))
             : null;
-        
+
         const daysHeld = entryDate && (exitDate || hasExpired)
             ? Math.ceil(((exitDate || expirationDate || now).getTime() - entryDate.getTime()) / (24 * 60 * 60 * 1000))
             : (entryDate ? Math.ceil((now.getTime() - entryDate.getTime()) / (24 * 60 * 60 * 1000)) : null);
@@ -9271,22 +9271,22 @@ class GammaLedger {
 
         const summary = entry.summary;
         const primaryLeg = summary?.primaryLeg;
-        
+
         // Build primary leg label with more detail
         if (primaryLeg) {
             const action = this.getLegAction(primaryLeg) || '';
             const type = (primaryLeg.type || '').toUpperCase();
             const strike = Number(primaryLeg.strike);
             const expiration = primaryLeg.expirationDate;
-            
+
             const actionLabel = action ? `${action.charAt(0)}${action.slice(1).toLowerCase()}` : '';
             let stageLabel = actionLabel;
-            
+
             if (Number.isFinite(strike) && ['CALL', 'PUT'].includes(type)) {
                 const formattedStrike = this.formatNumber(strike, { decimals: 2, useGrouping: false }) ?? strike.toFixed(2);
                 const typeSuffix = type === 'CALL' ? 'C' : 'P';
                 stageLabel = `${stageLabel ? `${stageLabel} ` : ''}${formattedStrike}${typeSuffix}`;
-                
+
                 // Add expiration if available
                 if (expiration) {
                     const expText = this.formatDate(expiration);
@@ -9297,7 +9297,7 @@ class GammaLedger {
             } else if (type) {
                 stageLabel = `${stageLabel ? `${stageLabel} ` : ''}${type}`;
             }
-            
+
             stageContainer.appendChild(this.createCreditStage(stageLabel || entry.strategy, 'primary'));
         } else {
             stageContainer.appendChild(this.createCreditStage(entry.strategy || entry.ticker, 'primary'));
@@ -9309,15 +9309,15 @@ class GammaLedger {
             if (summary.openLegs > 0) legTypeBreakdown.push(`${summary.openLegs} open`);
             if (summary.closeLegs > 0) legTypeBreakdown.push(`${summary.closeLegs} close`);
             if (summary.rollLegs > 0) legTypeBreakdown.push(`${summary.rollLegs} roll`);
-            
-            const legLabel = legTypeBreakdown.length 
+
+            const legLabel = legTypeBreakdown.length
                 ? `${summary.legsCount} legs (${legTypeBreakdown.join(', ')})`
                 : `${summary.legsCount} legs`;
             stageContainer.appendChild(this.createCreditStage(legLabel));
         }
 
         if (Number.isFinite(entry.premium) && entry.premium !== 0) {
-            const premiumLabel = entry.premium >= 0 
+            const premiumLabel = entry.premium >= 0
                 ? `Credit ${this.formatCurrency(entry.premium)}`
                 : `Debit ${this.formatCurrency(Math.abs(entry.premium))}`;
             stageContainer.appendChild(this.createCreditStage(premiumLabel));
@@ -9341,7 +9341,7 @@ class GammaLedger {
         }
 
         const metaParts = [];
-        
+
         // Add entry and exit prices if available
         if (Number.isFinite(summary?.entryPrice) && summary.entryPrice > 0) {
             metaParts.push(`Entry ${this.formatCurrency(summary.entryPrice)}`);
@@ -9349,22 +9349,22 @@ class GammaLedger {
         if (Number.isFinite(summary?.exitPrice) && summary.exitPrice > 0) {
             metaParts.push(`Exit ${this.formatCurrency(summary.exitPrice)}`);
         }
-        
+
         if (Number.isFinite(entry.capitalAtRisk) && entry.capitalAtRisk > 0) {
             metaParts.push(`Risk ${this.formatCurrency(entry.capitalAtRisk)}`);
         }
-        
+
         if (Number.isFinite(entry.capitalPerContract) && entry.capitalPerContract > 0) {
             metaParts.push(`Risk/contract ${this.formatCurrency(entry.capitalPerContract)}`);
         }
-        
+
         if (Number.isFinite(entry.premiumPerContract)) {
             const perContractLabel = entry.premiumPerContract >= 0
                 ? `Credit/contract ${this.formatCurrency(entry.premiumPerContract)}`
                 : `Debit/contract ${this.formatCurrency(Math.abs(entry.premiumPerContract))}`;
             metaParts.push(perContractLabel);
         }
-        
+
         // Add fees if significant
         if (Number.isFinite(summary?.totalFees) && summary.totalFees > 0) {
             metaParts.push(`Fees ${this.formatCurrency(summary.totalFees)}`);
@@ -9545,7 +9545,7 @@ class GammaLedger {
             if (totalFees === 0 && netPL === 0) {
                 summaryElement.textContent = 'No closed trades yet.';
             } else {
-            const shareText = this.formatNumber(feeShare, { decimals: 1, useGrouping: true }) ?? '0.0';
+                const shareText = this.formatNumber(feeShare, { decimals: 1, useGrouping: true }) ?? '0.0';
                 summaryElement.textContent = `${this.formatCurrency(totalFees)} in fees (${shareText}% of realized turnover).`;
             }
         }
@@ -9559,7 +9559,7 @@ class GammaLedger {
             this.charts.commissionImpact.destroy();
         }
 
-    const formatCurrencyValue = (value, decimals = 2) => this.formatCurrency(value, { decimals });
+        const formatCurrencyValue = (value, decimals = 2) => this.formatCurrency(value, { decimals });
 
         this.charts.commissionImpact = new Chart(ctx, {
             type: 'bar',
@@ -10018,9 +10018,9 @@ class GammaLedger {
             const currentModel = GEMINI_ALLOWED_MODELS.includes(this.gemini.model)
                 ? this.gemini.model
                 : DEFAULT_GEMINI_MODEL;
-            
+
             modelSelect.value = currentModel;
-            
+
             // Ensure state matches dropdown
             if (this.gemini.model !== currentModel) {
                 this.setGeminiModel(currentModel);
@@ -10133,7 +10133,7 @@ class GammaLedger {
         tokensSaveButton?.addEventListener('click', (event) => {
             event.preventDefault();
             const value = parseInt(maxTokensInput?.value || '', 10);
-            
+
             if (Number.isFinite(value) && value >= 1024) {
                 this.gemini.maxOutputTokens = value;
                 this.saveGeminiMaxTokensToStorage();
@@ -10369,6 +10369,16 @@ class GammaLedger {
         let pendingStatus = null;
 
         try {
+            if (window.APP_ENV?.GEMINI_API_KEY) {
+                // Env var takes precedence
+                this.gemini.apiKey = window.APP_ENV.GEMINI_API_KEY;
+                if (window.APP_ENV.GEMINI_MODEL) {
+                    this.setGeminiModel(window.APP_ENV.GEMINI_MODEL);
+                }
+                this.updateGeminiStatus('Configured via Environment Variables', 'success');
+                return true;
+            }
+
             const raw = this.safeLocalStorage.getItem(GEMINI_STORAGE_KEY);
             if (!raw) {
                 this.setGeminiApiKey('', { persist: false, updateUI: false });
@@ -10646,7 +10656,7 @@ class GammaLedger {
         rateSaveButton?.addEventListener('click', (event) => {
             event.preventDefault();
             const value = parseInt(rateLimitInput?.value || '', 10);
-            
+
             if (Number.isFinite(value) && value > 0) {
                 this.finnhub.maxRequestsPerMinute = value;
                 this.saveFinnhubRateLimitToStorage();
@@ -10733,7 +10743,7 @@ class GammaLedger {
         saveButton?.addEventListener('click', (event) => {
             event.preventDefault();
             const value = parseFloat(input?.value || '');
-            
+
             if (Number.isFinite(value) && value >= 0) {
                 this.defaultFeePerContract = value;
                 this.saveDefaultFeeToStorage();
@@ -10769,6 +10779,13 @@ class GammaLedger {
 
     loadDefaultFeeFromStorage() {
         try {
+            if (window.APP_ENV?.DEFAULT_FEE_PER_CONTRACT) {
+                const envVal = parseFloat(window.APP_ENV.DEFAULT_FEE_PER_CONTRACT);
+                if (Number.isFinite(envVal) && envVal >= 0) {
+                    this.defaultFeePerContract = envVal;
+                    return;
+                }
+            }
             const stored = localStorage.getItem(DEFAULT_FEE_STORAGE_KEY);
             if (stored !== null) {
                 const value = parseFloat(stored);
@@ -10802,6 +10819,12 @@ class GammaLedger {
     // Finnhub rate limit storage methods
     loadFinnhubRateLimitFromStorage() {
         try {
+            if (window.APP_ENV?.FINNHUB_RATE_LIMIT) {
+                const envVal = parseInt(window.APP_ENV.FINNHUB_RATE_LIMIT, 10);
+                if (Number.isFinite(envVal) && envVal > 0) {
+                    return envVal;
+                }
+            }
             const stored = localStorage.getItem(FINNHUB_RATE_LIMIT_STORAGE_KEY);
             if (stored !== null) {
                 const value = parseInt(stored, 10);
@@ -10836,6 +10859,12 @@ class GammaLedger {
     // Gemini max tokens storage methods
     loadGeminiMaxTokensFromStorage() {
         try {
+            if (window.APP_ENV?.GEMINI_MAX_TOKENS) {
+                const envVal = parseInt(window.APP_ENV.GEMINI_MAX_TOKENS, 10);
+                if (Number.isFinite(envVal) && envVal > 0) {
+                    return envVal;
+                }
+            }
             const stored = localStorage.getItem(GEMINI_MAX_TOKENS_STORAGE_KEY);
             if (stored !== null) {
                 const value = parseInt(stored, 10);
@@ -11726,18 +11755,18 @@ class GammaLedger {
             this.shareCard.chart = null;
         }
 
-    const series = this.computeCumulativePLSeries(this.cumulativePLRange);
+        const series = this.computeCumulativePLSeries(this.cumulativePLRange);
         const hasData = Boolean(series?.labels?.length && series?.dataPoints?.length);
         const labels = hasData ? series.labels : ['No Data'];
         const dataPoints = hasData ? series.dataPoints : [0];
 
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+        const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
         gradient.addColorStop(0, 'rgba(79, 195, 247, 0.38)');
         gradient.addColorStop(1, 'rgba(79, 195, 247, 0.05)');
 
-    const formatCurrencyValue = (value, decimals = 2) => this.formatCurrency(value, { decimals });
+        const formatCurrencyValue = (value, decimals = 2) => this.formatCurrency(value, { decimals });
 
-    this.shareCard.chart = new Chart(ctx, {
+        this.shareCard.chart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels,
@@ -11837,13 +11866,13 @@ class GammaLedger {
         button.setAttribute('aria-busy', 'true');
         button.blur();
 
-    const previousExportFlag = card.dataset.exportMode;
+        const previousExportFlag = card.dataset.exportMode;
         const previousWidth = card.style.width;
         const previousHeight = card.style.height;
         const previousMaxWidth = card.style.maxWidth;
         const previousMaxHeight = card.style.maxHeight;
 
-    // Force the card into a deterministic square frame for export.
+        // Force the card into a deterministic square frame for export.
         card.dataset.exportMode = 'true';
         card.style.width = `${exportSize}px`;
         card.style.height = `${exportSize}px`;
@@ -11987,6 +12016,14 @@ class GammaLedger {
 
     async loadFinnhubConfigFromStorage() {
         try {
+            if (window.APP_ENV?.FINNHUB_API_KEY) {
+                this.finnhub.apiKey = window.APP_ENV.FINNHUB_API_KEY;
+                // Don't return here, we might want to check for other overrides or just let it fall through if needed,
+                // but strictly speaking if we have an env key, we probably use it.
+                // However, the existing logic loads from enc/payload. Let's make Env take precedence and return.
+                return;
+            }
+
             const raw = localStorage.getItem(this.getFinnhubStorageKey());
             if (!raw) {
                 return;
@@ -12194,7 +12231,7 @@ class GammaLedger {
         if (!(this.activeQuoteEntries instanceof Map)) {
             this.activeQuoteEntries = new Map();
         }
-        
+
         if (!(this.creditPlaybookQuoteEntries instanceof Map)) {
             this.creditPlaybookQuoteEntries = new Map();
         }
@@ -12212,7 +12249,7 @@ class GammaLedger {
         const assignedPositionsCount = isDashboardView ? this.assignedPositionsQuoteEntries.size : 0;
         const creditPlaybookCount = isCreditPlaybookView ? this.creditPlaybookQuoteEntries.size : 0;
         const totalEntries = activePositionsCount + assignedPositionsCount + creditPlaybookCount;
-        
+
         if (totalEntries === 0) {
             this.stopQuoteAutoRefresh();
             return;
@@ -12282,15 +12319,15 @@ class GammaLedger {
     restartQuoteRefreshWithNewRate() {
         // Force recalculation of the refresh interval
         this.autoRefreshIntervalMs = this.computeAutoRefreshInterval();
-        
+
         // Stop current refresh timer
         this.stopQuoteAutoRefresh();
-        
+
         // Restart with new interval if there are entries to refresh
-        const totalEntries = (this.activeQuoteEntries?.size || 0) + 
-                            (this.creditPlaybookQuoteEntries?.size || 0) + 
-                            (this.assignedPositionsQuoteEntries?.size || 0);
-        
+        const totalEntries = (this.activeQuoteEntries?.size || 0) +
+            (this.creditPlaybookQuoteEntries?.size || 0) +
+            (this.assignedPositionsQuoteEntries?.size || 0);
+
         if (totalEntries > 0) {
             this.startQuoteAutoRefresh();
         }
@@ -13074,7 +13111,7 @@ class GammaLedger {
 
         const formatCurrencyValue = (value, decimals = 2) => this.formatCurrency(value, { decimals });
 
-    const series = this.computeCumulativePLSeries(this.cumulativePLRange);
+        const series = this.computeCumulativePLSeries(this.cumulativePLRange);
 
         if (!series || !series.labels.length || !series.dataPoints.length) {
             this.charts.cumulativePL = new Chart(ctx, {
@@ -13754,16 +13791,16 @@ class GammaLedger {
 
             const maxRiskCell = row.insertCell();
             const maxRiskValue = safeNumber(trade.maxRisk);
-            
+
             // Create text node for the value
             const maxRiskText = document.createTextNode(
-                trade.maxRiskLabel || 
+                trade.maxRiskLabel ||
                 (maxRiskValue !== null ? this.formatCurrency(maxRiskValue) : '—')
             );
-            
+
             // Add the value
             maxRiskCell.appendChild(maxRiskText);
-            
+
             // Add formula icon if we have a valid strategy
             if (trade.strategy && (trade.maxRiskLabel || maxRiskValue !== null)) {
                 const formulaIcon = this.createFormulaIcon(trade, 'maxRisk');
@@ -13771,7 +13808,7 @@ class GammaLedger {
                     maxRiskCell.appendChild(formulaIcon);
                 }
             }
-            
+
             // Set cell class
             if (trade.maxRiskLabel) {
                 maxRiskCell.className = trade.riskIsUnlimited ? 'pl-negative' : 'pl-neutral';
@@ -13786,15 +13823,15 @@ class GammaLedger {
 
             const plCell = row.insertCell();
             const plValue = safeNumber(trade.pl);
-            
+
             // Create text node for P&L value
             const plText = document.createTextNode(
                 plValue !== null ? this.formatCurrency(plValue) : '—'
             );
-            
+
             // Add the value
             plCell.appendChild(plText);
-            
+
             // Add formula icon if we have a valid P&L value and strategy
             if (trade.strategy && plValue !== null) {
                 const formulaIcon = this.createFormulaIcon(trade, 'pl');
@@ -13802,7 +13839,7 @@ class GammaLedger {
                     plCell.appendChild(formulaIcon);
                 }
             }
-            
+
             // Set cell class
             if (plValue !== null) {
                 plCell.className = plValue > 0 ? 'pl-positive' : plValue < 0 ? 'pl-negative' : 'pl-neutral';
@@ -13870,7 +13907,7 @@ class GammaLedger {
             const chartKeyBase = trade.id ?? trade.tradeId ?? trade.uniqueId ?? `${trade.ticker || 'trade'}-${index}`;
             const safeChartId = `trade-pl-${chartKeyBase}`.toString().replace(/[^a-zA-Z0-9_-]/g, '-');
             const footnoteId = `${safeChartId}-footnote`;
-            
+
             const plButton = document.createElement('button');
             plButton.type = 'button';
             plButton.className = 'action-btn action-btn--pl';
@@ -13917,24 +13954,24 @@ class GammaLedger {
 
             const detailCell = detailRow.insertCell(0);
             detailCell.colSpan = columnLabels.length;
-            
+
             // Create elements using DOM methods to avoid XSS risk
             const diagramContainer = document.createElement('div');
             diagramContainer.className = 'trade-diagram';
             diagramContainer.setAttribute('data-chart-container', safeChartId);
-            
+
             const canvasWrapper = document.createElement('div');
             canvasWrapper.className = 'trade-diagram__canvas';
-            
+
             const canvas = document.createElement('canvas');
             canvas.id = safeChartId;
             canvas.setAttribute('aria-hidden', 'true');
-            
+
             const footnote = document.createElement('p');
             footnote.className = 'trade-diagram__footnote';
             footnote.id = footnoteId;
             footnote.textContent = 'Tap or click the trade row to generate the payoff diagram.';
-            
+
             canvasWrapper.appendChild(canvas);
             diagramContainer.appendChild(canvasWrapper);
             diagramContainer.appendChild(footnote);
@@ -14070,7 +14107,7 @@ class GammaLedger {
         // Prepare positive and negative fill areas extending to entire diagram
         const xMin = Math.min(...payoff.points.map(p => p.x));
         const xMax = Math.max(...payoff.points.map(p => p.x));
-        
+
         const positiveArea = [
             { x: xMin, y: 0 },
             ...payoff.points.map(point => ({
@@ -14256,10 +14293,10 @@ class GammaLedger {
         }
 
         // Handle breakeven - can be single value or array
-        const breakevenValue = Array.isArray(payoff.breakeven) 
-            ? payoff.breakeven[0] 
+        const breakevenValue = Array.isArray(payoff.breakeven)
+            ? payoff.breakeven[0]
             : payoff.breakeven;
-        
+
         if (Number.isFinite(breakevenValue)) {
             const breakevenIndex = datasets.findIndex(dataset => dataset.id === 'breakevenLine');
             if (breakevenIndex !== -1) {
@@ -14630,7 +14667,7 @@ class GammaLedger {
             const strike = Number(leg.strike);
             const premium = Number(leg.premium) || 0;
             const quantity = Math.abs(Number(leg.quantity) || 1);
-            
+
             return {
                 type,
                 action,
@@ -14639,9 +14676,9 @@ class GammaLedger {
                 quantity,
                 raw: leg
             };
-        }).filter(leg => 
-            (leg.type === 'CALL' || leg.type === 'PUT') && 
-            Number.isFinite(leg.strike) && 
+        }).filter(leg =>
+            (leg.type === 'CALL' || leg.type === 'PUT') &&
+            Number.isFinite(leg.strike) &&
             leg.strike > 0
         );
 
@@ -14658,14 +14695,14 @@ class GammaLedger {
             const legs = calls.length === 2 ? calls : puts;
             const optionType = calls.length === 2 ? 'call' : 'put';
             const [leg1, leg2] = legs;
-            
+
             if (leg1.action !== leg2.action) { // One buy, one sell
                 const longLeg = leg1.action === 'BUY' ? leg1 : leg2;
                 const shortLeg = leg1.action === 'SELL' ? leg1 : leg2;
-                
+
                 const width = Math.abs(longLeg.strike - shortLeg.strike);
                 const isDebit = longLeg.strike < shortLeg.strike;
-                
+
                 return {
                     type: 'multi-leg',
                     subtype: 'vertical',
@@ -14778,7 +14815,7 @@ class GammaLedger {
         // Get all strikes to determine price range
         const strikes = legs.map(leg => leg.strike).filter(s => Number.isFinite(s) && s > 0);
         const spot = Number(trade.stockPriceAtEntry);
-        
+
         if (strikes.length < 2) {
             return {
                 message: 'Unable to determine strike prices from legs.'
@@ -14788,16 +14825,16 @@ class GammaLedger {
         const priceRange = this.buildPriceRange({ strikeValues: strikes, spot });
         const steps = 40;
         const points = [];
-        
+
         // Calculate total premium (net debit/credit)
         let totalPremium = 0;
         let totalFees = Number(trade.fees) || 0;
-        
+
         legs.forEach(leg => {
             const premium = Number(leg.premium) || 0;
             const quantity = Math.abs(Number(leg.quantity) || 1);
             const multiplier = 100 * quantity;
-            
+
             if (leg.action === 'BUY') {
                 totalPremium -= Math.abs(premium) * multiplier;
             } else if (leg.action === 'SELL') {
@@ -14809,12 +14846,12 @@ class GammaLedger {
         for (let i = 0; i <= steps; i++) {
             const price = priceRange.minPrice + ((priceRange.maxPrice - priceRange.minPrice) * i) / steps;
             let payoff = totalPremium - totalFees;
-            
+
             legs.forEach(leg => {
                 const quantity = Math.abs(Number(leg.quantity) || 1);
                 const multiplier = 100 * quantity;
                 const intrinsic = this.optionIntrinsic(leg.type.toLowerCase(), price, leg.strike);
-                
+
                 if (leg.action === 'BUY') {
                     // Long position: profit from intrinsic value
                     payoff += intrinsic * multiplier;
@@ -14823,7 +14860,7 @@ class GammaLedger {
                     payoff -= intrinsic * multiplier;
                 }
             });
-            
+
             points.push({
                 x: parseFloat(price.toFixed(2)),
                 y: parseFloat(payoff.toFixed(2))
@@ -14844,20 +14881,20 @@ class GammaLedger {
         }
 
         const zeroLinePoints = points.map(point => ({ x: point.x, y: 0 }));
-        
+
         // Calculate max profit and max loss
         const payoffValues = points.map(p => p.y);
         const maxProfit = Math.max(...payoffValues);
-        
+
         // Use trade's Max Risk if available, otherwise calculate from payoff curve
         const tradeMaxRisk = Number(trade.maxRiskOverride || trade.maxRisk);
         const maxLoss = (Number.isFinite(tradeMaxRisk) && tradeMaxRisk > 0)
             ? tradeMaxRisk
             : Math.abs(Math.min(...payoffValues, 0));
-        
+
         const contracts = Math.min(...legs.map(leg => Math.abs(Number(leg.quantity) || 1)));
         const isCredit = totalPremium > 0;
-        
+
         const summary = this.buildPayoffSummary({
             profileLabel: `${model.subtype === 'vertical' ? 'Vertical Spread' : 'Multi-Leg'} (${legs.length} legs)`,
             breakeven: breakevens.length > 0 ? breakevens : null,
@@ -16447,7 +16484,7 @@ class GammaLedger {
 
         this.renderImportSummary();
         this.refreshImportMergeList();
-    this.refreshTradesMergePanelContents();
+        this.refreshTradesMergePanelContents();
     }
 
     mergeSelectedTradesFromList() {
@@ -16485,7 +16522,7 @@ class GammaLedger {
             .map((trade) => this.parseDateValue(trade.entryDate || trade.openedDate))
             .filter((date) => date instanceof Date && !Number.isNaN(date.getTime()))
             .sort((a, b) => a.getTime() - b.getTime());
-    const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' });
+        const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' });
         const entryRange = entryDates.length
             ? `${dateFormatter.format(entryDates[0])} - ${dateFormatter.format(entryDates[entryDates.length - 1])}`
             : 'N/A';
@@ -18148,7 +18185,7 @@ class GammaLedger {
         // For closing legs, we need to match the position they're closing
         const side = this.getLegSide(leg);
         const action = this.getLegAction(leg);
-        
+
         let direction;
         if (options.forMatching && side === 'CLOSE') {
             // For closing legs when matching, invert the direction to find the position
@@ -18294,7 +18331,7 @@ class GammaLedger {
         const stockLegs = relevant.filter((leg) => (leg.type || '').toUpperCase() === 'STOCK');
         const callLegs = relevant.filter((leg) => (leg.type || '').toUpperCase() === 'CALL');
         const putLegs = relevant.filter((leg) => (leg.type || '').toUpperCase() === 'PUT');
-        
+
         // Wheel: stock + covered calls (STO CALL), or stock from assignment
         if (stockLegs.length > 0) {
             const hasShortCalls = callLegs.some((leg) => this.getLegAction(leg) === 'SELL');
@@ -18346,11 +18383,11 @@ class GammaLedger {
     }
 
     composeImportNotes(context = {}, options = {}) {
-    const fileName = context.fileName || 'OFX file';
-    const timestamp = new Date();
-    const dateLabel = timestamp.toLocaleDateString('en-US', { dateStyle: 'medium' });
-    const timeLabel = timestamp.toLocaleTimeString('en-US', { timeStyle: 'short' });
-    const parts = [`Imported from ${fileName} on ${dateLabel} at ${timeLabel}.`];
+        const fileName = context.fileName || 'OFX file';
+        const timestamp = new Date();
+        const dateLabel = timestamp.toLocaleDateString('en-US', { dateStyle: 'medium' });
+        const timeLabel = timestamp.toLocaleTimeString('en-US', { timeStyle: 'short' });
+        const parts = [`Imported from ${fileName} on ${dateLabel} at ${timeLabel}.`];
 
         if (options.legCount) {
             parts.push(`${options.legCount} leg${options.legCount === 1 ? '' : 's'} detected.`);
@@ -18397,8 +18434,8 @@ class GammaLedger {
 
         const groups = this.groupTransactionsForImport(transactions);
         const positionIndex = this.buildPositionIndex(this.trades);
-    const existingExternalIds = this.buildExistingExternalIdSet();
-    const seenExternalIds = new Set();
+        const existingExternalIds = this.buildExistingExternalIdSet();
+        const seenExternalIds = new Set();
 
         stats.totalGroups = groups.size;
 
